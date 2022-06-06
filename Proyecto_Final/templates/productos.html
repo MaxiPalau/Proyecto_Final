@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido %}
+    {% for i in producto %}
+    <div class="card" style="width: 18rem; float: left; margin: 10px">
+        
+        
+        {% if i.novedad == True %}
+            <div style="width: 10px; float:left; position: absolute; z-index:99999; background-color: blue;">nuevo</div>
+        {% else %}            
+            
+        {% endif %}
+
+        {% if i.descuento > 0 %}
+        <div style="width: 10px; float:left; position: absolute; z-index:99999; background-color: blue;">descuento</div> 
+        {% else %}            
+            
+        {% endif %}
+
+     
+        
+        <img src="{% static 'prod_images/' %}{{ i.imagen }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            
+            {% if i.stock == 0 %}
+                <h2><del>$ {{ i.precio }}</del></h2>
+            {% else %}            
+                <h2>$ {{ i.precio }}</h2>
+            {% endif %}
+
+            
+            <h5 class="card-title" style="margin:30px">{{ i.sku }} - {{ i.nombre }}</h5>
+          <p class="card-text">{{i.marca}}
+                                <br>
+                                {{i.descripcion}}.</p>
+          
+            {% if i.stock == 0 %}
+            
+            {% else %}            
+                <a href="#" class="btn btn-primary">Comprar</a>
+            {% endif %}
+
+
+            {% if i.descuento > 0 %}
+                 
+            {% else %}            
+            
+            {% endif %}
+
+
+            
+
+
+            
+         
+          
+          - <br>
+          - <br>
+          - Tipo: {{ i.tipo }}<br>
+          - Stock: {{ i.stock }}<br>
+          - {{ i.disponibilidad }}<br>
+        </div>
+    </div>
+       
+    {% endfor%}
+    
+{% endblock %}
