@@ -26,9 +26,9 @@ class Tipo(models.Model):
 class Productos(models.Model):
     nombre = models.CharField(max_length=200)
     sku = models.CharField(max_length=100, unique=True)
-    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE)
+    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE) # relacionada con el modelo Marcas
     modelo = models.CharField(max_length=100)
-    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
+    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE) # relacionada con el modelo Tipo
     precio = models.FloatField()
     stock = models.IntegerField()
     descuento = models.FloatField()
