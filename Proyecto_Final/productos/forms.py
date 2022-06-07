@@ -1,5 +1,5 @@
 from django import forms
-from productos.models import Productos
+from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_Marcas
 
 # class Product_form(forms.Form):
 #     name = forms.CharField(max_length=40)
@@ -11,4 +11,24 @@ from productos.models import Productos
 class Productos_form(forms.ModelForm):
     class Meta:
         model = Productos
+        fields = '__all__'
+
+class Marcas_form(forms.ModelForm):
+    class Meta:
+        model = Marcas
+        fields = '__all__'
+
+class Distribuidores_form(forms.ModelForm):
+    class Meta:
+        model = Distribuidores
+        fields = '__all__'
+
+class Distribuidores_marcas_form(forms.ModelForm):
+    class Meta:
+        model = Distribuidores_Marcas
+        fields = '__all__'
+
+class Tipo_form(forms.ModelForm):
+    class Meta:
+        model = Tipo
         fields = '__all__'

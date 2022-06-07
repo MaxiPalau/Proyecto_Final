@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block titulo %}
-    Crear Producto
+    Cargar Marca
 {% endblock %}
 
 {% block contenido %}
 
 {% if form %}
-    <h1>Crear producto</h1>
+    <h1>Cargar Marca</h1>
 
     <form action="" method="POST" >
         {% csrf_token %}
@@ -16,14 +16,14 @@
         </table>
         <input type="submit", value="Enviar!">
     </form>
-{% elif new_product %}
+{% elif new_marca %}
 
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+        
         <div class="card-body">
-            <h5 class="card-title">{{new_product.nombre}}</h5>
-            <p class="card-text">{{new_product.sku}}</p>
-            <p class="card-text">{{new_product.precio}}</p>
+            <h5 class="card-title">{{new_marca.nombre}}</h5>
+            <p class="card-text">{{new_marca.descripcion}}</p>
+            
         </div>
     </div>
 

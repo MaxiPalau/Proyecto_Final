@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Cargar Distribuidor
+{% endblock %}
+
+{% block contenido %}
+
+{% if form %}
+    <h1>Cargar Distribuidor</h1>
+
+    <form action="" method="POST" >
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <input type="submit", value="Enviar!">
+    </form>
+{% elif new_distribuidor %}
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Razon Social</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Localidad</th>
+            <th scope="col">Pais</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Web</th>
+            <th scope="col">Cuit</th>
+            <th scope="col">Descripcion</th>
+        </tr>
+        </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{{new_distribuidor.razon_social}}</td>
+      <td>{{new_distribuidor.direccion}}</td>
+      <td>{{new_distribuidor.localidad}}</td>
+      <td>{{new_distribuidor.pais}}</td>
+      <td>{{new_distribuidor.telefono}}</td>
+      <td>{{new_distribuidor.mail}}</td>
+      <td>{{new_distribuidor.web}}</td>
+      <td>{{new_distribuidor.cuit}}</td>
+      <td>{{new_distribuidor.descripcion}}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endif %}
+
+{% endblock %}

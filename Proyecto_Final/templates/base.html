@@ -76,7 +76,7 @@
     <div class="container" >
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#">Navbar</a>
+              <a class="navbar-brand" href="/">Inicio</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
                   <span class="accordion-button collapsed"></span>
@@ -85,20 +85,19 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/productos/">Productos</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
+
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown
+                      Administración
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      <li><a class="dropdown-item" href="/productos/create-product/">Cargar Producto</a></li>
+                      <li><a class="dropdown-item" href="/productos/create-marca/">Cargar Marca</a></li>
+                      <li><a class="dropdown-item" href="/productos/create-distribuidor/">Cargar Distribuidor</a></li>
+                      <li><a class="dropdown-item" href="/productos/create-tipo/">Cargar Tipo</a></li>
+                      <li><a class="dropdown-item" href="/productos/create-distribuidorm/">Cargar Distribuidor x Marca</a></li>
                     </ul>
                   </li>
                   <li class="nav-item">
@@ -109,7 +108,7 @@
               </div>
               <div>
                 <form class="d-flex" role="search" action = "/productos/search-product/" method="GET">
-                  <input class="form-control me-2" type="search" placeholder="Buscador de Productos" aria-label="Search"  name = 'search'>
+                  <input class="form-control me-2" type="text" placeholder="Buscador de Productos" aria-label="Search"  name = 'search'>
                   <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
               </div>
