@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% block titulo %}
-    Búsqueda
-{% endblock %}
 {% load static %}
+{% block titulo %}Búsqueda{% endblock %}
+{% block nav_productos_activo %}active{% endblock %}
 {% block contenido %}
 <div class="titulo_seccion"><h2>Resultado de Búsqueda</h2></div>
        
@@ -61,14 +60,6 @@
             {% else %}            
                 <a href="#" class="btn btn-primary">Comprar</a>
             {% endif %}
-
-         
-            {% if i.descuento > 0 %}
-                   
-            {% else %}            
-            
-            {% endif %}
-
 
         </div>
     </div>

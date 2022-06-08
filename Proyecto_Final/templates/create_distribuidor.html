@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
-
-{% block titulo %}
-    Cargar Distribuidor
-{% endblock %}
-
+{% load static %}
+{% block titulo %} Cargar Distribuidor{% endblock %}
+{% block nav_administracion_activo %}active{% endblock %}
 {% block contenido %}
 
 {% if form %}

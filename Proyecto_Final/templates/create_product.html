@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
-
-{% block titulo %}
-    Crear Producto
-{% endblock %}
-
+{% load static %}
+{% block titulo %} Crear Producto{% endblock %}
+{% block nav_administracion_activo %}active{% endblock %}
 {% block contenido %}
 
 {% if form %}

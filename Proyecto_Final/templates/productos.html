@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block titulo %}
-    Productos
-{% endblock %}
 {% load static %}
+{% block titulo %}Productos{% endblock %}
+{% block nav_productos_activo %}active{% endblock %}
+
 {% block contenido %}
 
     <div class="titulo_seccion"><h2>Nuestros Productos</h2></div>
     {% for i in producto %}
-    <div class="card" style="width: 18rem; float: left; margin: 10px">
+    <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
         
         
         {% if i.novedad == True %}
@@ -61,14 +61,6 @@
             {% else %}            
                 <a href="#" class="btn btn-primary">Comprar</a>
             {% endif %}
-
-         
-            {% if i.descuento > 0 %}
-                   
-            {% else %}            
-            
-            {% endif %}
-
 
         </div>
     </div>

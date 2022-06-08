@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
-{% block titulo %}
-    Inicio
-{% endblock %}
 {% load static %}
+{% block titulo %}Inicio{% endblock %}
+{% block nav_inicio_activo %}active{% endblock %}
+
 {% block contenido %}
-<div class="logo"><img src="{% static 'index.jpg' %}" alt="Ferreteria 2010" width="600px"></div>
-<h2>Bienvenido a Ferretería 2010</h2>
-<br>
-<h2>Para comenzar a operar haga clic en Productos</h2>
-
-
+<div class="container">
+    <div class="row align-items-end">&nbsp;</div>
+    <div class="row align-items-start">
+      <div class="col">
+        <a href="/productos/"><img src="{% static 'assets/images/Banner1.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
+      </div>
+      
+    </div>
+    <div class="row align-items-end">&nbsp;</div>
+    <div class="row align-items-center">
+      <div class="col">
+        <a href="/productos/"><img src="{% static 'assets/images/Banner2.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
+      </div>
+      <div class="col">
+        <a href="/productos/"><img src="{% static 'assets/images/Banner3.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
+      </div>
+     
+    </div>
+    <div class="row align-items-end">&nbsp;</div>
+</div>
 {% endblock %}
