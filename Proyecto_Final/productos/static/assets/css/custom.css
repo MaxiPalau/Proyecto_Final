@@ -68,6 +68,10 @@
       .navbar-nav .active a {
         color: #fff;
       }
+      
+      .dropdown-item {
+        color: #000 !important;
+      }
 
       .footer {
         background-color:lightblue;
