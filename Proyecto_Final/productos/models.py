@@ -61,7 +61,7 @@ class Distribuidores(models.Model):
     def __str__(self):
         return self.razon_social
 
-class Distribuidores_Marcas(models.Model):
+class Distribuidores_marcas(models.Model):
     marca = models.ForeignKey(Marcas, on_delete=models.CASCADE, related_name='nombre_marca')
     distribuidor = models.ForeignKey(Distribuidores, on_delete=models.CASCADE, related_name='nombre')
 

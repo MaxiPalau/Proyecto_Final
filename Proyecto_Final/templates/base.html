@@ -33,7 +33,7 @@
                   <li class="nav-item {% block nav_productos_activo %}{% endblock %}">
                     <a class="nav-link" href="/productos/">Productos</a>
                   </li>
-
+                  {% if request.user.username == 'admin' %}
                   <li class="nav-item dropdown {% block nav_administracion_activo %}{% endblock %}">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Administración
@@ -46,6 +46,7 @@
                       <li><a class="dropdown-item" href="/productos/create-distribuidorm/">Cargar Distribuidor x Marca</a></li>
                     </ul>
                   </li>
+                  {% endif %}
                   {% if request.user.is_authenticated %}
                   <li class="nav-item {% block nav_logout_activo %}{% endblock %}">
                     <a class="nav-link" href="/logout">Logout</a>
