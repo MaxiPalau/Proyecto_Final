@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Registro{% endblock %}
+{% block nav_administracion_activo %}active{% endblock %}
+{% block contenido %}
+    {% if boton == 0 %}
+    <h2 style="margin-left:10%">Complete los campos para registrarse</h2>
+    <h7 style=color:red >{{errors}}</h7>
+    <form action="" method="POST" style="margin-left:10%">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        
+        <input type="submit", value="Registro" style="margin-left:20%">
+    </form>
+    {% else %}
+    <h3 style="margin-left:35%">{{message}}</h3>          
+    <a href="/login" class="btn btn-primary" style="margin-left:45%">Login</a>
+    {% endif %}
+    
+
+{% endblock %}
