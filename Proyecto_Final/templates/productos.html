@@ -36,7 +36,7 @@
 
      
         <div class="images_box">
-            <img src="{% static 'prod_images/' %}{{ i.imagen }}" class="card-img-top" alt="...">
+            <img src="{{ i.imagen.url }}" class="card-img-top" alt="...">
         </div>
         <div class="card-body">
             <div style="text-align: center;">

@@ -25,7 +25,8 @@ def create_product_view(request):
         context = {'form':form}
         return render(request, 'create_product.html', context=context)
     else:
-        form = Productos_form(request.POST)
+        form = Productos_form(request.POST, request.FILES)
+        print(form.is_valid())
         if form.is_valid():
             new_product = Productos.objects.create(
                 nombre = form.cleaned_data['nombre'],
@@ -37,9 +38,10 @@ def create_product_view(request):
                 tipo = form.cleaned_data['tipo'],
                 stock = form.cleaned_data['stock'],
                 descuento = form.cleaned_data['descuento'],
-                imagen = form.cleaned_data['imagen'],
+                imagen = request.FILES['imagen'],
                 descripcion = form.cleaned_data['descripcion']
             )
+            new_product.save()
             context ={'new_product':new_product}
         return render(request, 'create_product.html', context=context)
 

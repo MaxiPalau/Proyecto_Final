@@ -7,7 +7,7 @@
 {% if form %}
     <h1>Crear producto</h1>
 
-    <form action="" method="POST" >
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
             {{form.as_table}}
@@ -17,7 +17,7 @@
 {% elif new_product %}
 
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+        <img class="card-img-top" src="{{ new_product.imagen.url }}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{new_product.nombre}}</h5>
             <p class="card-text">{{new_product.sku}}</p>

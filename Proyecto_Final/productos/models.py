@@ -26,14 +26,14 @@ class Tipo(models.Model):
 class Productos(models.Model):
     nombre = models.CharField(max_length=200)
     sku = models.CharField(max_length=100, unique=True)
-    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE) # relacionada con el modelo Marcas
+    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE, related_name='producto') # relacionada con el modelo Marcas
     modelo = models.CharField(max_length=100)
-    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE) # relacionada con el modelo Tipo
+    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE, related_name='producto') # relacionada con el modelo Tipo
     precio = models.FloatField()
     stock = models.IntegerField()
     descuento = models.FloatField()
     novedad = models.BooleanField()    
-    imagen = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to = 'prod_images', default='')
     descripcion = models.CharField(max_length=200, blank=True, default='')
 
     class Meta:
@@ -62,8 +62,8 @@ class Distribuidores(models.Model):
         return self.razon_social
 
 class Distribuidores_Marcas(models.Model):
-    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE)
-    distribuidor = models.ForeignKey(Distribuidores, on_delete=models.CASCADE)
+    marca = models.ForeignKey(Marcas, on_delete=models.CASCADE, related_name='nombre_marca')
+    distribuidor = models.ForeignKey(Distribuidores, on_delete=models.CASCADE, related_name='nombre')
 
 
     class Meta:
