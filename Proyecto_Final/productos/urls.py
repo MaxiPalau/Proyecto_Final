@@ -10,4 +10,5 @@ urlpatterns = [
     path('create-distribuidor/', create_distribuidor_view, name='create-distribuidor-view'),
     path('create-tipo/', create_tipo_view, name='create_tipo_view'),
     path('create-distribuidorm/', create_distribuidor_marca_view, name='ccreate_distribuidor_marca_view'),
+    
 ]
