@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Distribuidores{% endblock %}
+{% block nav_administracion_activo %}active{% endblock %}
+{% block contenido %}
+<div class="titulo_seccion"><h2>Distribuidores</h2></div>
+
+<div class="table-responsive-xl">
+<table class="table table-hover table-dark table-bordered table-sm" width="Auto">
+    <thead>
+      <tr>
+        <th scope="col" style="width: Auto; font-size: small">Codigo</th>
+        <th scope="col" style="width: Auto; font-size: small">Cuit</th>
+        <th scope="col" style="width: Auto; font-size: small">Razon Social</th>
+        <th scope="col" style="width: Auto; font-size: small">Direccion</th>
+        <th scope="col" style="width: Auto; font-size: small">Localidad</th>
+        <th scope="col" style="width: Auto; font-size: small">Pais</th>
+        <th scope="col" style="width: Auto; font-size: small">Telefono</th>
+        <th scope="col" style="width: Auto; font-size: small">Mail</th>
+        <th scope="col" style="width: Auto; font-size: small">Web</th>      
+        <th scope="col" style="width: Auto; font-size: small">Descripcion</th>
+        <th scope="col" style="width: Auto; font-size: small">Activo</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for distribuidor in object_list %}
+            <tr>
+            <th scope="row">{{distribuidor.id}}</th>
+            <td style="width: Auto; font-size: small">{{ distribuidor.cuit }}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.razon_social}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.direccion}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.localidad}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.pais}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.telefono}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.mail}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.web}}</td>
+            <td style="width: Auto; font-size: small">{{distribuidor.descripcion}}</td>
+            {% if distribuidor.active == True %}
+                <td style="width: Auto; font-size: small"><i class="bi bi-check-circle" style="text-align:right; font-size:20px; color:greenyellow"></i></td>
+            {% else %}
+                <td style="width: Auto; font-size: small"><i class="bi bi-x-circle" style="text-align:right; font-size:20px; color:red"></i></td>
+            {% endif %}
+            <td>
+                <a href="/productos/edit-distribuidor/{{distribuidor.id}}" class="btn btn-primary" style="width: Auto; height: 30px ;font-size: smaller">Editar</a> 
+                <a href="/productos/delete-distribuidor/{{distribuidor.id}}" class="btn btn-danger" style="width: Auto; height: 30px; font-size: smaller">Eliminar</a></td> 
+            </td> 
+            </tr>
+        {% endfor%}
+    </tbody>
+  </table>
+  <div class="pagination" >
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Pag {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+
+</div class="text-right">
+  <a href="/productos/create-distribuidor" class="btn btn-outline-success">Nuevo Proveedor </a> 
+</div>
+{% endblock %}

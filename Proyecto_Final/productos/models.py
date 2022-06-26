@@ -58,6 +58,7 @@ class Distribuidores(models.Model):
     web = models.CharField(max_length=100)
     cuit = models.IntegerField(unique=True)
     descripcion = models.CharField(max_length=200, blank=True, default='')
+    active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'Distribuidor'

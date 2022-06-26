@@ -15,7 +15,7 @@ class Display_productos(admin.ModelAdmin):
 admin.site.register(Productos, Display_productos)
 
 class Display_distribuidores(admin.ModelAdmin):
-    list_display = ('razon_social', 'direccion', 'localidad', 'pais', 'telefono', 'mail', 'web', 'cuit', 'descripcion')
+    list_display = ('razon_social', 'direccion', 'localidad', 'pais', 'telefono', 'mail', 'web', 'cuit', 'descripcion', 'active')
 
 admin.site.register(Distribuidores, Display_distribuidores)
 

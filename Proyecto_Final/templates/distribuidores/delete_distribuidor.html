@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Borrar proveedor {% endblock %}
+
+{% block contenido %}
+
+    <h3 style="color: red">¿ Desea eliminar el proveedor {{object.razon_social}}?</h3>
+
+    <div class="table-responsive-xl">
+        <table class="table table-hover table-dark table-bordered table-sm" width="Auto">
+            <thead>
+              <tr>
+                <th scope="col" style="width: Auto; font-size: small">Codigo</th>
+                <th scope="col" style="width: Auto; font-size: small">Cuit</th>
+                <th scope="col" style="width: Auto; font-size: small">Razon Social</th>
+                <th scope="col" style="width: Auto; font-size: small">Direccion</th>
+                <th scope="col" style="width: Auto; font-size: small">Localidad</th>
+                <th scope="col" style="width: Auto; font-size: small">Pais</th>
+                <th scope="col" style="width: Auto; font-size: small">Telefono</th>
+                <th scope="col" style="width: Auto; font-size: small">Mail</th>
+                <th scope="col" style="width: Auto; font-size: small">Web</th>      
+                <th scope="col" style="width: Auto; font-size: small">Descripcion</th>
+                <th scope="col" style="width: Auto; font-size: small">Activo</th>
+              </tr>
+            </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{object.id}}</th>
+                <td style="width: Auto; font-size: small">{{ object.cuit }}</td>
+                <td style="width: Auto; font-size: small">{{object.razon_social}}</td>
+                <td style="width: Auto; font-size: small">{{object.direccion}}</td>
+                <td style="width: Auto; font-size: small">{{object.localidad}}</td>
+                <td style="width: Auto; font-size: small">{{object.pais}}</td>
+                <td style="width: Auto; font-size: small">{{object.telefono}}</td>
+                <td style="width: Auto; font-size: small">{{object.mail}}</td>
+                <td style="width: Auto; font-size: small">{{object.web}}</td>
+                <td style="width: Auto; font-size: small">{{object.descripcion}}</td>
+                {% if object.active == True %}
+                    <td style="width: Auto; font-size: small"><i class="bi bi-check-circle" style="text-align:right; font-size:20px; color:greenyellow"></i></td>
+                {% else %}
+                    <td style="width: Auto; font-size: small"><i class="bi bi-x-circle" style="text-align:right; font-size:20px; color:red"></i></td>
+                {% endif %}
+                <td>
+                    <form method = "POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form> 
+                </td> 
+                </tr>
+        </tbody>
+      </table>
+    </div>
+
+    
+    {% endblock %}

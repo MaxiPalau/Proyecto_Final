@@ -62,13 +62,13 @@ class Update_product(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('detail_producto', kwargs={'pk':self.object.pk})
 
-class List_marcas(ListView):
+class List_marcas(LoginRequiredMixin, ListView):
     model = Marcas
     template_name = 'distribuidores/marcas.html'
 
-class Detail_marca(DetailView):
-    model = Marcas
-    template_name = 'distribuidores/detalle_marca.html'
+# class Detail_marca(LoginRequiredMixin, DetailView):
+#     model = Marcas
+#     template_name = 'distribuidores/detalle_marca.html'
 
 class Create_marca(LoginRequiredMixin, CreateView):
     model = Marcas
@@ -102,13 +102,47 @@ class Delete_marca(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('marcas')
 
+class List_distribuidor(LoginRequiredMixin, ListView):
+    paginate_by = 6
+    model = Distribuidores
+    template_name = 'distribuidores/distribuidores.html'
+
+
+# class Detail_distribuidor(LoginRequiredMixin, DetailView):
+#     model = Distribuidores
+#     template_name = 'distribuidores/detalle_distribuidor.html'
+
 class Create_distribuidor(LoginRequiredMixin, CreateView):
     model = Distribuidores
     template_name= 'distribuidores/create_distribuidor.html'
     fields = '__all__'
 
     def get_success_url(self):
-        return reverse('index')
+        return reverse('distribuidores')
+
+class Edit_distribuidor(LoginRequiredMixin, UpdateView):
+    model = Distribuidores
+    template_name = 'distribuidores/edit_distribuidor.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('distribuidores')
+
+class Delete_distribuidor(LoginRequiredMixin, DeleteView):
+    model = Distribuidores
+    template_name = 'distribuidores/delete_distribuidor.html'
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object = self.get_object()
+        print(self.object.active)
+        self.object.active = False
+        print(self.object.active)
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        return reverse('distribuidores')
 
 class Create_distribuidor_marca(LoginRequiredMixin, CreateView):
     model = Distribuidores_marcas
