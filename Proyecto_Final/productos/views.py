@@ -62,7 +62,7 @@ class Create_marca(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
     def get_success_url(self):
-        return('index')
+        return reverse('index')
 
 class Create_distribuidor(LoginRequiredMixin, CreateView):
     model = Distribuidores
@@ -70,7 +70,7 @@ class Create_distribuidor(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
     def get_success_url(self):
-        return('index')
+        return reverse('index')
 
 class Create_distribuidor_marca(LoginRequiredMixin, CreateView):
     model = Distribuidores_marcas
@@ -78,7 +78,7 @@ class Create_distribuidor_marca(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
     def get_success_url(self):
-        return('index')
+        return reverse('index')
 
 class Create_tipo(LoginRequiredMixin, CreateView):
     model = Tipo
@@ -86,7 +86,7 @@ class Create_tipo(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
     def get_success_url(self):
-        return('index')
+        return reverse('index')
 
 
 # def productos(request):

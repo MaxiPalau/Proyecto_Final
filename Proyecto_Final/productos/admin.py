@@ -1,5 +1,5 @@
 from django.contrib import admin
-from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas
+from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
 
 # Register your models here.
 admin.site.register(Tipo)
@@ -23,3 +23,8 @@ class Display_dist_marcas(admin.ModelAdmin):
     list_display = ('marca', 'distribuidor')
     
 admin.site.register(Distribuidores_marcas, Display_dist_marcas)
+
+class Display_estados(admin.ModelAdmin):
+    list_display = ('estado', 'descripcion')
+
+admin.site.register(Estados, Display_estados)

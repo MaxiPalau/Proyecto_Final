@@ -1,3 +1,4 @@
+from ast import Delete
 from django.db import models
 
 # Create your models here.
@@ -35,6 +36,8 @@ class Productos(models.Model):
     novedad = models.BooleanField()    
     imagen = models.ImageField(upload_to = 'prod_images', default='')
     descripcion = models.CharField(max_length=200, blank=True, default='')
+    estado = models.ForeignKey('Estados', on_delete=models.CASCADE, related_name='producto') # relacionada con el modelo Estado
+    # estado = models.CharField(max_length=200, default='hola')
 
     class Meta:
         verbose_name = 'Producto'
@@ -65,10 +68,20 @@ class Distribuidores_marcas(models.Model):
     marca = models.ForeignKey(Marcas, on_delete=models.CASCADE, related_name='nombre_marca')
     distribuidor = models.ForeignKey(Distribuidores, on_delete=models.CASCADE, related_name='nombre')
 
-
     class Meta:
         verbose_name = 'Distribuidores x marca'
         verbose_name_plural = 'Distribuidores x marcas'
 
     def __str__(self):
         return str(self.distribuidor)
+
+class Estados(models.Model):
+    estado = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'Estado'
+        verbose_name_plural = 'Estados'
+    
+    def __str__(self):
+        return str(self.estado)
