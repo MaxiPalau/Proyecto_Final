@@ -13,14 +13,21 @@ class List_productos(ListView):
 
 
 def search_product_view(request):
-    print(request.GET)
     productos = Productos.objects.filter(nombre__icontains = request.GET['search'])
+    marcas = Marcas.objects.filter(nombre__icontains = request.GET['search']).values('id')
+    tipos = Tipo.objects.filter(categoria__icontains = request.GET['search']).values('id')
     if productos.exists():
         context = {'productos':productos}
+    elif marcas.exists():
+        productos = Productos.objects.filter(marca__in = marcas)
+        context = {'productos':productos}
+    elif tipos.exists():
+        productos = Productos.objects.filter(tipo__in = tipos)
+        context = {'productos':productos}
     else:
-        context = {'errors':'No se encontró el producto.'}
-    return render(request, 'search_product.html', context = context)
-    #return render(request, 'search_product.html')
+        context = {'errors':'No se encontraron productos.'}
+    return render(request, 'products/search_product.html', context = context)
+
 
 class Create_product(LoginRequiredMixin, CreateView):
     model = Productos
