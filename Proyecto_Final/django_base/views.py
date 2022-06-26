@@ -18,7 +18,6 @@ def login_view(request):
             login(request, user)
             context = {'message':f'Ha iniciado sesión como {username}'}
             return render(request, 'index.html', context=context)
-            #return redirect('productos/create-product')
          else:
             form = AuthenticationForm()
             context = {'errors':'Nombre de usuario o contraseña incorrecto', 'form':form}

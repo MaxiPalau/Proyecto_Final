@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Marcas{% endblock %}
+{% block nav_administracion_activo %}active{% endblock %}
+{% block contenido %}
+<div class="titulo_seccion"><h2>Marcas</h2></div>
+<div class="table-responsive-sm">
+<table class="table table-hover table-dark table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Codigo</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Description</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for marca in object_list %}
+            <tr>
+            <th scope="row">{{marca.id}}</th>
+            <td>{{ marca.nombre }}</td>
+            <td>{{marca.descripcion}}</td>
+            {% if marca.active == True %}
+                <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
+            {% else %}
+                <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
+            {% endif %}
+            <td>
+                <a href="/productos/edit-marca/{{marca.id}}" class="btn btn-primary">Editar</a> 
+                <a href="/productos/delete-marca/{{marca.id}}" class="btn btn-danger">Eliminar</a></td> 
+            </td> 
+            </tr>
+        {% endfor%}
+    </tbody>
+  </table>
+</div>
+  <a href="/productos/create-marca" class="btn btn-outline-success">Nueva Marca</a></td> 
+
+{% endblock %}

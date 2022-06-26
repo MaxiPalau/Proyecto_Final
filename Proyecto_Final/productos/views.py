@@ -1,20 +1,16 @@
 from http.client import HTTPResponse
-import re
 from django.shortcuts import render
 from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
 from productos.forms import Productos_form, Marcas_form, Distribuidores_form, Distribuidores_marcas_form, Tipo_form
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.urls import reverse
-
 from django.http import HttpResponseRedirect
 
 # Create your views here.
 class List_productos(ListView):
     model = Productos
-    template_name = 'products/productos.html'
-    
-
+    template_name = 'products/productos.html' 
 
 def search_product_view(request):
     productos = Productos.objects.filter(nombre__icontains = request.GET['search'])
@@ -31,7 +27,6 @@ def search_product_view(request):
     else:
         context = {'errors':'No se encontraron productos.'}
     return render(request, 'products/search_product.html', context = context)
-
 
 class Create_product(LoginRequiredMixin, CreateView):
     model = Productos
@@ -67,13 +62,45 @@ class Update_product(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('detail_producto', kwargs={'pk':self.object.pk})
 
+class List_marcas(ListView):
+    model = Marcas
+    template_name = 'distribuidores/marcas.html'
+
+class Detail_marca(DetailView):
+    model = Marcas
+    template_name = 'distribuidores/detalle_marca.html'
+
 class Create_marca(LoginRequiredMixin, CreateView):
     model = Marcas
     template_name= 'distribuidores/create_marca.html'
     fields = '__all__'
 
     def get_success_url(self):
-        return reverse('index')
+        return reverse('marcas')
+
+class Edit_marca(LoginRequiredMixin, UpdateView):
+    model = Marcas
+    template_name = 'distribuidores/edit_marca.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('marcas')
+
+class Delete_marca(LoginRequiredMixin, DeleteView):
+    model = Marcas
+    template_name = 'distribuidores/delete_marca.html'
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object = self.get_object()
+        print(self.object.active)
+        self.object.active = False
+        print(self.object.active)
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        return reverse('marcas')
 
 class Create_distribuidor(LoginRequiredMixin, CreateView):
     model = Distribuidores

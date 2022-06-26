@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Borrar marca {% endblock %}
+
+{% block contenido %}
+
+    <h3 style="color: red">¿ Desea eliminar la marca {{object.nombre}}?</h3>
+
+    <div class="table-responsive-sm">
+    <table class="table table-hover table-dark table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Description</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+                <tr>
+                <th scope="row">{{object.id}}</th>
+                <td>{{ object.nombre }}</td>
+                <td>{{object.descripcion}}</td>
+                {% if object.active == True %}
+                    <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
+                {% else %}
+                    <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
+                {% endif %}
+                <td>
+                    <form method = "POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form> 
+                </td> 
+                </tr>
+        </tbody>
+      </table>
+    </div>
+
+    
+    {% endblock %}

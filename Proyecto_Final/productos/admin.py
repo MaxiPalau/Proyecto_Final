@@ -5,7 +5,7 @@ from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuid
 admin.site.register(Tipo)
 
 class Display_marcas(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion')
+    list_display = ('nombre', 'descripcion', 'active')
 
 admin.site.register(Marcas, Display_marcas)
 
