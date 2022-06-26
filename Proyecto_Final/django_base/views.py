@@ -46,12 +46,14 @@ def register_view(request):
       
       if form.is_valid():
          form.save()
-         mensaje = 'Usuario creado con éxito.'
+         username = form.cleaned_data['username']
+         mensaje = f'Usuario {username} creado con éxito.'
          boton = 1
          context = {'message': mensaje, 'boton':boton}
          return render(request, 'auth/register.html', context=context)
       else:
          f_error = form.errors
+         # print (form.cleaned_data['username'])
          for key in f_error:
             error = f_error[key]
          form = Registro_usuario_form()
