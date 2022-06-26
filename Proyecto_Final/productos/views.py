@@ -1,9 +1,13 @@
+from http.client import HTTPResponse
+import re
 from django.shortcuts import render
-from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas
+from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
 from productos.forms import Productos_form, Marcas_form, Distribuidores_form, Distribuidores_marcas_form, Tipo_form
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.urls import reverse
+
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 class List_productos(ListView):
@@ -43,7 +47,14 @@ class Detail_product(DetailView):
 
 class Delete_product(LoginRequiredMixin, DeleteView):
     model = Productos
-    template_name = 'delete_producto.html'
+    template_name = 'products/delete_producto.html'
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object = self.get_object()
+        self.object.active = False
+        self.object.save()
+        return HttpResponseRedirect(success_url)
 
     def get_success_url(self):
         return reverse('productos')

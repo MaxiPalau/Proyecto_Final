@@ -6,11 +6,24 @@
 {% block contenido %}
 
     <div class="titulo_seccion"><h2>Nuestros Productos</h2></div>
-    {% for i in object_list %}
+    {% for producto in object_list %}
+
+    {% if producto.active == False and producto.stock == 0 and request.user.username != 'admin' %}
+
+    {% else %}
     <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
         
+        {% if producto.active == False and request.user.username == 'admin' %}
+        <div class="labels_image">
+            <span class="producto_baja_c_stock">EOS / EOL</span>
+        </div>
+        {% elif producto.active == False %}
+        <div class="labels_image">
+            <span class="producto_baja_c_stock">Últimos disponibles</span>
+        </div>
+        {% endif %}
         
-        {% if i.novedad == True %}
+        {% if producto.novedad == True %}
             <div class="labels_image">
                 <span class="producto_nuevo">Nuevo</span>
             </div>
@@ -18,15 +31,15 @@
             
         {% endif %}
 
-        {% if i.descuento > 0 %}
+        {% if producto.descuento > 0 %}
         <div class="labels_image">
-            <span class="producto_descuento">{{ i.descuento }} % OFF!</span>
+            <span class="producto_descuento">{{ producto.descuento }} % OFF!</span>
         </div> 
         {% else %}            
             
         {% endif %}
 
-        {% if i.stock == 0 %}
+        {% if producto.stock == 0 %}
         <div class="labels_image label_stock">
             <span class="producto_stock">PRODUCTO SIN STOCK!</span>
         </div> 
@@ -36,38 +49,38 @@
 
      
         <div class="images_box">
-            <img src="{{ i.imagen.url }}" class="card-img-top" alt="...">
+            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="...">
         </div>
         <div class="card-body">
             <div style="text-align: center;">
-            {% if i.stock == 0  %}
-                <h2><del>$ {{ i.precio }}</del></h2>
+            {% if producto.stock == 0  %}
+                <h2><del>$ {{ producto.precio }}</del></h2>
             {% else %}            
-                <h2>$ {{ i.precio }}</h2>
+                <h2>$ {{ producto.precio }}</h2>
             {% endif %}
             </div>
             
-            <h5 class="card-title" style="margin:10px">{{ i.sku }} - {{ i.nombre }}</h5>
-            <div class="card-text" style="text-align: center; margin-bottom: 15px;">{{i.marca}}</div>
+            <h5 class="card-title" style="margin:10px">{{ producto.sku }} - {{ producto.nombre }}</h5>
+            <div class="card-text" style="text-align: center; margin-bottom: 15px;">{{producto.marca}}</div>
             <p class="card-text"></p>
             
                                 
-            Tipo: {{ i.tipo }}<br>
-            Stock: {{ i.stock }} u.<br>
+            Tipo: {{ producto.tipo }}<br>
+            Stock: {{ producto.stock }} u.<br>
             
           
-            {% if i.stock > 0 and request.user.username != 'admin' %}
+            {% if producto.stock > 0 and request.user.username != 'admin' %}
                 <a href="#" class="btn btn-primary">Comprar</a>
             {% elif request.user.username == 'admin' %}            
-                <a href="/productos/update-producto/{{object.id}}" class="btn btn-primary">Editar</a>
-                <a href="/productos/delete-producto/{{object.id}}" class="btn btn-danger">Eliminar</a>
+                <a href="/productos/update-producto/{{producto.id}}" class="btn btn-primary">Editar</a>
+                <a href="/productos/delete-producto/{{producto.id}}" class="btn btn-danger">Eliminar</a>
             {% endif %}
-            <a href="/productos/detail-producto/{{i.id}}/" class="btn btn-primary">Detalles</a>
+            <a href="/productos/detail-producto/{{producto.id}}/" class="btn btn-primary">Detalles</a>
            
 
         </div>
     </div>
-       
+    {% endif %}
     {% endfor%}
     
 {% endblock %}

@@ -24,6 +24,11 @@
         background-color: darkgreen;
         padding: 7px 20px;
       }
+      .producto_baja_c_stock {
+        color: #fff;
+        background-color: rgb(211, 211, 26);
+        padding: 7px 20px;
+      }
 
       .producto_descuento {
         color: #fff;

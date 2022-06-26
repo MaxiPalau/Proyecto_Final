@@ -8,7 +8,16 @@
     <div class="titulo_seccion"><h2>Detalles</h2></div>
     
     <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
-        
+
+        {% if object.active == False and request.user.username == 'admin' %}
+        <div class="labels_image">
+            <span class="producto_baja_c_stock">EOS / EOL</span>
+        </div>
+        {% elif object.active == False %}
+        <div class="labels_image">
+            <span class="producto_baja_c_stock">Últimos disponibles</span>
+        </div>
+        {% endif %}
         
         {% if object.novedad == True %}
             <div class="labels_image">
@@ -56,7 +65,7 @@
             Stock: {{ object.stock }} u.<br>
             Descripción: {{ object.descripcion }}<br>
 
-            {% if i.stock > 0 and request.user.username != 'admin' %}
+            {% if object.stock > 0 and request.user.username != 'admin' %}
                 <a href="#" class="btn btn-primary">Comprar</a>
             {% elif request.user.username == 'admin' %}            
                 <a href="/productos/update-producto/{{object.id}}" class="btn btn-primary">Editar</a>
