@@ -2,7 +2,11 @@ from django.contrib import admin
 from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
 
 # Register your models here.
-admin.site.register(Tipo)
+
+class Display_categorias(admin.ModelAdmin):
+    list_display = ('categoria', 'descripcion', 'active')
+
+admin.site.register(Tipo, Display_categorias)
 
 class Display_marcas(admin.ModelAdmin):
     list_display = ('nombre', 'descripcion', 'active')

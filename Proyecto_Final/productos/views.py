@@ -135,9 +135,7 @@ class Delete_distribuidor(LoginRequiredMixin, DeleteView):
     def form_valid(self, form):
         success_url = self.get_success_url()
         self.object = self.get_object()
-        print(self.object.active)
         self.object.active = False
-        print(self.object.active)
         self.object.save()
         return HttpResponseRedirect(success_url)
 
@@ -158,7 +156,36 @@ class Create_tipo(LoginRequiredMixin, CreateView):
     fields = '__all__'
 
     def get_success_url(self):
-        return reverse('index')
+        return reverse('tipos')
+
+class List_tipo(LoginRequiredMixin, ListView):
+    paginate_by = 6
+    model = Tipo
+    template_name = 'products/tipos.html'
+
+class Edit_tipo(LoginRequiredMixin, UpdateView):
+    model = Tipo
+    template_name= 'products/edit_tipo.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('tipos')
+
+class Delete_tipo(LoginRequiredMixin, DeleteView):
+    model = Tipo
+    template_name = 'products/delete_tipo.html'
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object = self.get_object()
+        print(self.object.active)
+        self.object.active = False
+        print(self.object.active)
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        return reverse('tipos')
 
 
 # def productos(request):
