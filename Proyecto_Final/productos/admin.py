@@ -14,7 +14,7 @@ class Display_marcas(admin.ModelAdmin):
 admin.site.register(Marcas, Display_marcas)
 
 class Display_productos(admin.ModelAdmin):
-    list_display = ('nombre', 'marca', 'modelo', 'sku', 'tipo', 'stock', 'precio', 'estado', 'active')
+    list_display = ('nombre', 'marca', 'modelo', 'sku', 'tipo', 'stock', 'precio', 'active')
 
 admin.site.register(Productos, Display_productos)
 

@@ -7,13 +7,13 @@
 
     <div class="titulo_seccion"><h2>Nuestros Productos</h2></div>
     {% for producto in object_list %}
-
-    {% if producto.active == False and producto.stock == 0 and request.user.username != 'admin' %}
+    {% for id in id_grupo %}
+    {% if producto.active == False and producto.stock == 0 and id.name != 'Ferreteria' %}
 
     {% else %}
     <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
         
-        {% if producto.active == False and request.user.username == 'admin' %}
+        {% if producto.active == False and id.name == 'Ferreteria' %}
         <div class="labels_image">
             <span class="producto_baja_c_stock">EOS / EOL</span>
         </div>
@@ -81,6 +81,6 @@
         </div>
     </div>
     {% endif %}
-    {% endfor%}
-    
+    {% endfor %}
+    {% endfor %}
 {% endblock %}

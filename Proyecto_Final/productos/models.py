@@ -38,7 +38,7 @@ class Productos(models.Model):
     novedad = models.BooleanField()    
     imagen = models.ImageField(upload_to = 'prod_images', default='')
     descripcion = models.CharField(max_length=200, blank=True, default='')
-    estado = models.ForeignKey('Estados', on_delete=models.CASCADE, related_name='producto') # relacionada con el modelo Estado
+    # estado = models.ForeignKey('Estados', on_delete=models.CASCADE, related_name='producto') # relacionada con el modelo Estado
     # estado = models.CharField(max_length=200, default='hola')
     active = models.BooleanField(default=True)
 

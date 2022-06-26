@@ -1,12 +1,15 @@
 from django.urls import path
-from productos.views import search_product_view, Create_product, Detail_product, List_productos, Delete_product, Update_product
+from productos.views import search_product, Create_product, Detail_product, List_productos, Delete_product, Update_product
 from productos.views import Create_distribuidor, Create_distribuidor_marca, Create_tipo, Create_marca, List_marcas, Edit_marca 
 from productos.views import Delete_marca, List_distribuidor, Edit_distribuidor, Delete_distribuidor, List_tipo, Edit_tipo, Delete_tipo
+from productos.views import create_product, list_productos
 
 urlpatterns = [
-    path('', List_productos.as_view(), name = 'productos'),
-    path('search-product/', search_product_view, name = 'search_product'),
-    path('create-product/', Create_product.as_view(), name = 'create_product'),
+    # path('', List_productos.as_view(), name = 'productos'),
+    path('', list_productos, name = 'productos'),
+    path('search-product/', search_product, name = 'search_product'),
+    # path('create-product/', Create_product.as_view(), name = 'create_product'),
+    path('create-product/', create_product, name = 'create_product'),
     path('detail-producto/<int:pk>/', Detail_product.as_view(), name='detail_producto'),
     path('delete-producto/<int:pk>/', Delete_product.as_view(), name='delete_producto'),
     path('update-producto/<int:pk>/', Update_product.as_view(), name='update_producto'),

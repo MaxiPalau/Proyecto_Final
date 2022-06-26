@@ -1,38 +1,89 @@
 from http.client import HTTPResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
 from productos.forms import Productos_form, Marcas_form, Distribuidores_form, Distribuidores_marcas_form, Tipo_form
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User, Group
 
 # Create your views here.
-class List_productos(ListView):
-    model = Productos
-    template_name = 'products/productos.html' 
 
-def search_product_view(request):
+def usuario_logueado(request):
+    if request.user.is_authenticated:
+        username  = request.user.username
+        id_usuario = User.objects.filter(username__icontains = username).values('id')
+        id_grupo = Group.objects.filter(user__in = id_usuario).values('name')
+        return id_grupo
+    else:
+        id_grupo = {}
+        return id_grupo
+
+def list_productos(request):
+    id_grupo = usuario_logueado(request)
+    producto = Productos.objects.all()
+    context = {'object_list':producto, 'id_grupo':id_grupo}
+    return render(request, 'products/productos.html', context=context)
+
+def search_product(request):
+    id_grupo = usuario_logueado(request)
+
     productos = Productos.objects.filter(nombre__icontains = request.GET['search'])
     marcas = Marcas.objects.filter(nombre__icontains = request.GET['search']).values('id')
     tipos = Tipo.objects.filter(categoria__icontains = request.GET['search']).values('id')
     if productos.exists():
-        context = {'productos':productos}
+        context = {'productos':productos, 'id_grupo':id_grupo}
     elif marcas.exists():
         productos = Productos.objects.filter(marca__in = marcas)
-        context = {'productos':productos}
+        context = {'productos':productos, 'id_grupo':id_grupo}
     elif tipos.exists():
         productos = Productos.objects.filter(tipo__in = tipos)
-        context = {'productos':productos}
+        context = {'productos':productos, 'id_grupo':id_grupo}
     else:
-        context = {'errors':'No se encontraron productos.'}
+        context = {'errors':'No se encontraron productos.', 'id_grupo':id_grupo}
     return render(request, 'products/search_product.html', context = context)
+
+def create_product(request):
+    id_grupo = usuario_logueado(request)
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            form = Productos_form()
+            context = {'form':form, 'id_grupo':id_grupo}
+            return render(request, 'products/create_product.html', context=context)
+        else:
+            form = Productos_form(request.POST, request.FILES)
+            print(form.is_valid())
+            if form.is_valid():
+                new_product = Productos.objects.create(
+                    nombre = form.cleaned_data['nombre'],
+                    precio = form.cleaned_data['precio'],
+                    sku = form.cleaned_data['sku'],
+                    novedad = form.cleaned_data['novedad'],
+                    marca = form.cleaned_data['marca'],
+                    modelo = form.cleaned_data['modelo'],
+                    tipo = form.cleaned_data['tipo'],
+                    stock = form.cleaned_data['stock'],
+                    descuento = form.cleaned_data['descuento'],
+                    imagen = request.FILES['imagen'],
+                    descripcion = form.cleaned_data['descripcion'],
+                    active = form.cleaned_data['active']
+                )
+                new_product.save()
+                context ={'new_product':new_product, 'id_grupo':id_grupo}
+            return render(request, 'products/create_product.html', context=context)
+    else:
+        return redirect('index')
+
+class List_productos(ListView):
+    model = Productos
+    template_name = 'products/productos.html'
 
 class Create_product(LoginRequiredMixin, CreateView):
     model = Productos
     template_name = 'products/create_product.html'
-    fields = '__all__' 
-    
+    fields = '__all__'
+
     def get_success_url(self):
         return reverse('detail_producto', kwargs={'pk':self.object.pk})
 
@@ -188,37 +239,9 @@ class Delete_tipo(LoginRequiredMixin, DeleteView):
         return reverse('tipos')
 
 
-# def productos(request):
-#     producto = Productos.objects.all()
-#     #print(producto) 
-#     context = {'producto':producto}
-#     return render(request, 'productos.html', context=context)
+
 #
-# def create_product_view(request):
-#     if request.method == 'GET':
-#         form = Productos_form()
-#         context = {'form':form}
-#         return render(request, 'create_product.html', context=context)
-#     else:
-#         form = Productos_form(request.POST, request.FILES)
-#         print(form.is_valid())
-#         if form.is_valid():
-#             new_product = Productos.objects.create(
-#                 nombre = form.cleaned_data['nombre'],
-#                 precio = form.cleaned_data['precio'],
-#                 sku = form.cleaned_data['sku'],
-#                 novedad = form.cleaned_data['novedad'],
-#                 marca = form.cleaned_data['marca'],
-#                 modelo = form.cleaned_data['modelo'],
-#                 tipo = form.cleaned_data['tipo'],
-#                 stock = form.cleaned_data['stock'],
-#                 descuento = form.cleaned_data['descuento'],
-#                 imagen = request.FILES['imagen'],
-#                 descripcion = form.cleaned_data['descripcion']
-#             )
-#             new_product.save()
-#             context ={'new_product':new_product}
-#         return render(request, 'create_product.html', context=context)
+# 
 #
 # def create_marca_view(request):
 #     #print(request.user.groups.all())

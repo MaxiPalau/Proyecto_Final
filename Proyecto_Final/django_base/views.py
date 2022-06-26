@@ -3,9 +3,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django_base.forms import Registro_usuario_form 
+from django.contrib.auth.models import User, Group
+
 
 def index(request):
-   return render(request, 'index.html', context = {})
+   if request.user.is_authenticated:
+      username  = request.user.username
+      # print(f'Hola {username}')
+      id_usuario = User.objects.filter(username__icontains = username).values('id')
+      id_grupo = Group.objects.filter(user__in = id_usuario).values('name')
+      context = {'id_grupo':id_grupo}
+   else:
+      context = {}
+   return render(request, 'index.html', context = context)
+   # return render(request, 'index.html', context = {})
 
 def login_view(request):
    if request.method == 'POST':
@@ -15,8 +26,10 @@ def login_view(request):
          password = form.cleaned_data['password']
          user = authenticate(username=username, password=password)
          if user is not None:
-            login(request, user)
-            context = {'message':f'Ha iniciado sesión como {username}'}
+            login(request, user)            
+            id_usuario = User.objects.filter(username__icontains = username).values('id')
+            id_grupo = Group.objects.filter(user__in = id_usuario).values('name')
+            context = {'message':f'Ha iniciado sesión como {username}', 'id_grupo':id_grupo}
             return render(request, 'index.html', context=context)
          else:
             form = AuthenticationForm()
