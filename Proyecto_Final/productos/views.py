@@ -20,6 +20,7 @@ def usuario_logueado(request):
         id_grupo = {}
         return id_grupo
 
+# Productos
 def list_productos(request):
     id_grupo = usuario_logueado(request)
     producto = Productos.objects.all()
@@ -113,13 +114,10 @@ class Update_product(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('detail_producto', kwargs={'pk':self.object.pk})
 
+# Marcas
 class List_marcas(LoginRequiredMixin, ListView):
     model = Marcas
     template_name = 'distribuidores/marcas.html'
-
-# class Detail_marca(LoginRequiredMixin, DetailView):
-#     model = Marcas
-#     template_name = 'distribuidores/detalle_marca.html'
 
 class Create_marca(LoginRequiredMixin, CreateView):
     model = Marcas
@@ -153,15 +151,11 @@ class Delete_marca(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('marcas')
 
+# Distribuidores
 class List_distribuidor(LoginRequiredMixin, ListView):
     paginate_by = 6
     model = Distribuidores
     template_name = 'distribuidores/distribuidores.html'
-
-
-# class Detail_distribuidor(LoginRequiredMixin, DetailView):
-#     model = Distribuidores
-#     template_name = 'distribuidores/detalle_distribuidor.html'
 
 class Create_distribuidor(LoginRequiredMixin, CreateView):
     model = Distribuidores
@@ -201,6 +195,7 @@ class Create_distribuidor_marca(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('index')
 
+# Categorias/Tipos
 class Create_tipo(LoginRequiredMixin, CreateView):
     model = Tipo
     template_name= 'products/create_tipo.html'
