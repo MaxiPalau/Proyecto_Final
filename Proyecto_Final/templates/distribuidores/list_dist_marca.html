@@ -1,34 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block titulo %}Marcas{% endblock %}
+{% block titulo %}Marcas x distribuidor{% endblock %}
 {% block nav_administracion_activo %}active{% endblock %}
 {% block contenido %}
-<div class="titulo_seccion"><h2>Marcas</h2></div>
+<div class="titulo_seccion"><h2>Marcas x distribuidor</h2></div>
 <div class="table-responsive-sm">
 <table class="table table-hover table-dark table-bordered">
     <thead>
       <tr>
         <th scope="col">Codigo</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Descripcion</th>
-        <th scope="col">Activo</th>
+        <th scope="col">Distribuidor</th>
+        <th scope="col">Marca</th>
+        <th scope="col">Marca Activa</th>
+        <th scope="col">Relacion Activa</th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
     <tbody>
-        {% for marca in object_list %}
+        {% for objeto in object_list %}
             <tr>
-            <th scope="row">{{marca.id}}</th>
-            <td>{{ marca.nombre }}</td>
-            <td>{{marca.descripcion}}</td>
-            {% if marca.active == True %}
+            <th scope="row">{{objeto.id}}</th>
+            <td>{{ objeto.distribuidor.razon_social }}</td>
+            <td>{{ objeto.marca.nombre }}</td>
+            {% if objeto.marca.active == True %}
+                <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
+            {% else %}
+                <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
+            {% endif %}
+            {% if objeto.active == True %}
                 <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
             {% else %}
                 <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
             {% endif %}
             <td>
-                <a href="/productos/update-marca/{{marca.id}}" class="btn btn-primary">Editar</a> 
-                <a href="/productos/delete-marca/{{marca.id}}" class="btn btn-danger">Eliminar</a></td> 
+                <a href="/productos/update-distribuidorm/{{objeto.id}}" class="btn btn-primary">Editar</a> 
+                <a href="/productos/delete-distribuidorm/{{objeto.id}}" class="btn btn-danger">Eliminar</a></td> 
             </td> 
             </tr>
         {% endfor%}
@@ -74,6 +80,6 @@
   {% endif %}
 </div>
 </div>
-  <a href="/productos/create-marca" class="btn btn-outline-success">Nueva Marca</a></td> 
+  <a href="/productos/create-distribuidorm/" class="btn btn-outline-success">Nuevo Distribuidor x Marca</a></td> 
 
 {% endblock %}

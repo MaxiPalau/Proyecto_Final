@@ -71,7 +71,8 @@ class Distribuidores(models.Model):
 class Distribuidores_marcas(models.Model):
     marca = models.ForeignKey(Marcas, on_delete=models.CASCADE, related_name='nombre_marca')
     distribuidor = models.ForeignKey(Distribuidores, on_delete=models.CASCADE, related_name='nombre')
-
+    active = models.BooleanField(default=True)
+    
     class Meta:
         verbose_name = 'Distribuidores x marca'
         verbose_name_plural = 'Distribuidores x marcas'

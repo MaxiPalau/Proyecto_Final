@@ -45,33 +45,26 @@ def list_productos(request):
     producto = Productos.objects.all()
     context = paginator(request, producto, 6)
     return render(request, 'products/productos.html', context=context)
-    # grupo = usuario_logueado(request)
-    # producto = Productos.objects.all()
-    # pag = request.GET.get('page', 1)
-    # paginator = Paginator(producto, 6)
-    # try:
-    #     resultados = paginator.page(pag)
-    # except PageNotAnInteger:
-    #     resultados = paginator.page(1)
-    # except EmptyPage:
-    #     resultados = paginator.page(paginator.num_pages)
-    # context = {'object_list':resultados, 'grupo':grupo}
-    # return render(request, 'products/productos.html', context=context)
 
 def search_product(request):
-    grupo = usuario_logueado(request)
+    grupo = usuario_logueado(request)   
     productos = Productos.objects.filter(nombre__icontains = request.GET['search'])
     marcas = Marcas.objects.filter(nombre__icontains = request.GET['search']).values('id')
     tipos = Tipo.objects.filter(categoria__icontains = request.GET['search']).values('id')
     if productos.exists():
-        context = {'productos':productos, 'grupo':grupo}
+        context = {'object_list':productos, 'grupo':grupo}
+        # context = paginator(request, productos, 6)
     elif marcas.exists():
         productos = Productos.objects.filter(marca__in = marcas)
-        context = {'productos':productos, 'grupo':grupo}
+        context = {'object_list':productos, 'grupo':grupo}
+        # context = paginator(request, productos, 6)
+        print(context)
     elif tipos.exists():
         productos = Productos.objects.filter(tipo__in = tipos)
-        context = {'productos':productos, 'grupo':grupo}
+        context = {'object_list':productos, 'grupo':grupo}
+        # context = paginator(request, productos, 6)
     else:
+        # grupo = usuario_logueado(request)
         context = {'errors':'No se encontraron productos.', 'grupo':grupo}
     return render(request, 'products/search_product.html', context = context)
 
@@ -152,18 +145,9 @@ def delete_product(request, pk):
 
 # Marcas basado en funciones obteniendo el grupo del usuario
 def list_marcas(request):
-    grupo = usuario_logueado(request)
     if request.user.is_authenticated:
         marcas = Marcas.objects.all()
-        pag = request.GET.get('page', 1)
-        paginator = Paginator(marcas, 6)
-        try:
-            resultados = paginator.page(pag)
-        except PageNotAnInteger:
-            resultados = paginator.page(1)
-        except EmptyPage:
-            resultados = paginator.page(paginator.num_pages)
-        context = {'object_list':resultados, 'grupo':grupo}
+        context = paginator(request, marcas, 6)
         return render(request, 'distribuidores/marcas.html', context=context)
     else:
         return redirect('index')
@@ -228,19 +212,9 @@ def delete_marca(request, pk):
 
 # Distribuidores
 def list_distribuidor(request):
-    grupo = usuario_logueado(request)
     if request.user.is_authenticated:
         distribuidores = Distribuidores.objects.all()
-        pag = request.GET.get('page', 1)
-        paginator = Paginator(distribuidores, 6)
-        try:
-            resultados = paginator.page(pag)
-        except PageNotAnInteger:
-            resultados = paginator.page(1)
-        except EmptyPage:
-            resultados = paginator.page(paginator.num_pages)
-
-        context = {'object_list':resultados, 'grupo':grupo}
+        context = paginator(request, distribuidores, 6)
         return render(request, 'distribuidores/distribuidores.html', context=context)
     else:
         return redirect('index')
@@ -310,19 +284,31 @@ def delete_distribuidor(request, pk):
     else:
         return redirect('index') 
 
-def distribuidor_marca(request):
+# Distribuidores x marcas
+
+def list_distribuidor_marca(request):
+    if request.user.is_authenticated:
+        distribuidores_m = Distribuidores_marcas.objects.all()
+        print(distribuidores_m)
+        context = paginator(request, distribuidores_m, 6)
+        return render(request, 'distribuidores/list_dist_marca.html', context=context)
+    else:
+        return redirect('index')
+
+def create_distribuidor_marca(request):
     grupo = usuario_logueado(request)
     if request.user.is_authenticated:
         if request.method == 'GET':
             form = Distribuidores_marcas_form()
             context = {'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_distribuidor_marca.html', context=context)
+            return render(request, 'distribuidores/create_dist_marca.html', context=context)
         else:
             form = Distribuidores_marcas_form(request.POST)
             if form.is_valid():
                 new_distribuidor_m = Distribuidores_marcas.objects.create(
                     marca = form.cleaned_data['marca'],
                     distribuidor = form.cleaned_data['distribuidor'],
+                    active = form.cleaned_data['active'] 
                 )
                 context ={'new_distribuidor_m':new_distribuidor_m, 'grupo':grupo}
             else:
@@ -330,25 +316,48 @@ def distribuidor_marca(request):
                     for key in f_error:
                         error = f_error[key]
                     context = {'errors':error, 'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_distribuidor_marca.html', context=context)
+            return render(request, 'distribuidores/create_dist_marca.html', context=context)
     else:
         return redirect('index')
 
-# Categorias/Tipos
-def list_tipo(request):
+def update_distribuidor_marca(request, pk):
     grupo = usuario_logueado(request)
     if request.user.is_authenticated:
-        tipos = Tipo.objects.all()
-        pag = request.GET.get('page', 1)
-        paginator = Paginator(tipos, 6)
-        try:
-            resultados = paginator.page(pag)
-        except PageNotAnInteger:
-            resultados = paginator.page(1)
-        except EmptyPage:
-            resultados = paginator.page(paginator.num_pages)
+        dist_marca = Distribuidores_marcas.objects.get(id = pk)
+        form = Distribuidores_marcas_form(request.POST or None, instance= dist_marca)
+        if form.is_valid():
+            form.save()
+            context = {'form':form, 'grupo':grupo}
+            return HttpResponseRedirect('/productos/dist-marca')
+        else:
+            f_error = form.errors        
+            if f_error.__len__() == 0:
+                context = {'form':form, 'grupo':grupo}
+            else:
+                for key in f_error:
+                    error = f_error[key]
+                context = {'errors':error, 'form':form, 'grupo':grupo}        
+        return render(request, 'distribuidores/update_dist_marca.html', context=context)
+    else:
+        return redirect('index')
+        
+def delete_distribuidor_marca(request, pk):
+    grupo = usuario_logueado(request)
+    if request.user.is_authenticated:
+        dist_marca = Distribuidores_marcas.objects.get(id = pk)
+        context = {'object':dist_marca, 'grupo':grupo}
+        if request.method == 'POST':
+            Distribuidores_marcas.objects.filter(id = pk).update(active = False)
+            return HttpResponseRedirect('/productos/dist-marca')
+        return render(request, 'distribuidores/delete_dist_marca.html', context=context)       
+    else:
+        return redirect('index') 
 
-        context = {'object_list':resultados, 'grupo':grupo}
+# Categorias/Tipos
+def list_tipo(request):
+    if request.user.is_authenticated:
+        tipos = Tipo.objects.all()
+        context = paginator(request, tipos, 6)
         return render(request, 'products/tipos.html', context=context)
     else:
         return redirect('index')  

@@ -21,6 +21,12 @@
         <div class="card-body">
             <h5 class="card-title">Marca: {{new_distribuidor_m.marca}}</h5>
             <p class="card-text">Distribuidor: {{new_distribuidor_m.distribuidor}}</p>
+            <p class="card-text">Activo:
+                {% if new_distribuidor_m.active == True %}
+                <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
+            {% else %}
+                <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
+            {% endif %} </p>
         </div>
     </div>
 

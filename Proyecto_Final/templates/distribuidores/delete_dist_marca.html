@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Borrar Distribuidor x Marca {% endblock %}
+
+{% block contenido %}
+
+    <h3 style="color: red">¿ Desea eliminar la relacion entre el distribuidor {{object.distribuidor.razon_social}} y la marca {{object.marca.nombre}}?</h3>
+
+    <div class="table-responsive-sm">
+    <table class="table table-hover table-dark table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Distribuidor</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Marca Activa</th>
+            <th scope="col">Relacion Activa</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+                <tr>
+                <th scope="row">{{object.id}}</th>
+                <td>{{ object.distribuidor.razon_social }}</td>
+                <td>{{ object.marca.nombre }}</td>
+                {% if object.marca.active == True %}
+                    <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
+                {% else %}
+                    <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
+                {% endif %}
+                {% if object.active == True %}
+                    <td><i class="bi bi-check-circle" style="text-align:right; font-size:30px; color:greenyellow"></i></td>
+                {% else %}
+                    <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
+                {% endif %}
+                <td>
+                    <form method = "POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form> 
+                </td> 
+                </tr>
+        </tbody>
+      </table>
+    </div>
+
+    
+    {% endblock %}

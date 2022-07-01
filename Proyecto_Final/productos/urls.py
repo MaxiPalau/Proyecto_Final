@@ -5,7 +5,9 @@ from django.urls import path
 # from productos.views import Delete_marca, List_distribuidor, Edit_distribuidor, Delete_distribuidor, List_tipo, Edit_tipo, Delete_tipo
 from productos.views import search_product, create_product, list_productos, detail_product, update_product, delete_product, list_marcas
 from productos.views import create_marca, update_marca, delete_marca, list_distribuidor, create_distribuidor, update_distribuidor
-from productos.views import delete_distribuidor, distribuidor_marca, list_tipo, create_tipo, update_tipo, delete_tipo
+from productos.views import delete_distribuidor, create_distribuidor_marca, list_tipo, create_tipo, update_tipo, delete_tipo
+from productos.views import list_distribuidor_marca, update_distribuidor_marca, delete_distribuidor_marca
+
 
 urlpatterns = [
     # path('', List_productos.as_view(), name = 'productos'),
@@ -44,7 +46,9 @@ urlpatterns = [
     path('update-tipo/<pk>/', update_tipo, name='update_tipo'),
     # path('delete-tipo/<int:pk>/', Delete_tipo.as_view(), name='delete_tipo'),
     path('delete-tipo/<pk>/', delete_tipo, name='delete_tipo'),
+    path('dist-marca/', list_distribuidor_marca, name='list_distribuidor_marca'),
     # path('create-distribuidorm/', Create_distribuidor_marca.as_view(), name='create_distribuidor_marca'),
-    path('create-distribuidorm/', distribuidor_marca, name='create_distribuidor_marca'),
-    
+    path('create-distribuidorm/', create_distribuidor_marca, name='create_distribuidor_marca'),
+    path('update-distribuidorm/<pk>', update_distribuidor_marca, name='update_distribuidor_marca'),
+    path('delete-distribuidorm/<pk>', delete_distribuidor_marca, name='delete_distribuidor_marca'),
 ]
