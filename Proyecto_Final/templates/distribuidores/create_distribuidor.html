@@ -6,7 +6,7 @@
 
 {% if form %}
     <h1>Nuevo Distribuidor</h1>
-
+    <h7 style=color:red >{{errors}}</h7>
     <form action="" method="POST" >
         {% csrf_token %}
         <table>
@@ -15,6 +15,7 @@
         <input type="submit", value="Enviar!">
     </form>
 {% elif new_distribuidor %}
+<h3>Nuevo Distribuidor Generado</h3>
     <table class="table">
         <thead class="thead-dark">
           <tr>

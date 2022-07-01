@@ -7,13 +7,13 @@
 
     <div class="titulo_seccion"><h2>Nuestros Productos</h2></div>
     {% for producto in object_list %}
-    {% for id in id_grupo %}
-    {% if producto.active == False and producto.stock == 0 and id.name != 'Ferreteria' %}
+    
+    {% if producto.active == False and producto.stock == 0 and grupo == False %}
 
     {% else %}
     <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
         
-        {% if producto.active == False and id.name == 'Ferreteria' %}
+        {% if producto.active == False and grupo == True %}
         <div class="labels_image">
             <span class="producto_baja_c_stock">EOS / EOL</span>
         </div>
@@ -69,18 +69,56 @@
             Stock: {{ producto.stock }} u.<br>
             
           
-            {% if producto.stock > 0 and request.user.username != 'admin' %}
+            {% if producto.stock > 0 and grupo == False %}
                 <a href="#" class="btn btn-primary">Comprar</a>
-            {% elif request.user.username == 'admin' %}            
+            {% elif grupo == True %}            
                 <a href="/productos/update-producto/{{producto.id}}" class="btn btn-primary">Editar</a>
                 <a href="/productos/delete-producto/{{producto.id}}" class="btn btn-danger">Eliminar</a>
             {% endif %}
-            <a href="/productos/detail-producto/{{producto.id}}/" class="btn btn-primary">Detalles</a>
+            <a href="/productos/detail-producto/{{producto.id}}" class="btn btn-primary">Detalles</a>
            
 
         </div>
     </div>
     {% endif %}
     {% endfor %}
-    {% endfor %}
+    <div class="pagination" >
+        {% if object_list.has_other_pages %}
+        <nav>
+          <ul class="pagination justify-content-center">
+            {% if object_list.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ object_list.previous_page_number }}" aria-label="Anterior">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                  <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+            {% endif %}
+    
+            {% for p in object_list.paginator.page_range %}
+              {% if object_list.number == p %}
+                <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+              {% endif %}
+            {% endfor %}
+    
+            {% if object_list.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ object_list.next_page_number }}" aria-label="Siguiente">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+            {% endif %}
+        </ul>
+        </nav>
+      {% endif %}
+    </div>
 {% endblock %}

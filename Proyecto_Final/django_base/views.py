@@ -4,17 +4,12 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django_base.forms import Registro_usuario_form 
 from django.contrib.auth.models import User, Group
+from productos.views import usuario_logueado
 
 
 def index(request):
-   if request.user.is_authenticated:
-      username  = request.user.username
-      # print(f'Hola {username}')
-      id_usuario = User.objects.filter(username__icontains = username).values('id')
-      id_grupo = Group.objects.filter(user__in = id_usuario).values('name')
-      context = {'id_grupo':id_grupo}
-   else:
-      context = {}
+   grupo = usuario_logueado(request)
+   context = {'grupo':grupo}
    return render(request, 'index.html', context = context)
    # return render(request, 'index.html', context = {})
 
@@ -26,10 +21,9 @@ def login_view(request):
          password = form.cleaned_data['password']
          user = authenticate(username=username, password=password)
          if user is not None:
-            login(request, user)            
-            id_usuario = User.objects.filter(username__icontains = username).values('id')
-            id_grupo = Group.objects.filter(user__in = id_usuario).values('name')
-            context = {'message':f'Ha iniciado sesión como {username}', 'id_grupo':id_grupo}
+            login(request, user)
+            grupo = usuario_logueado(request)           
+            context = {'message':f'Ha iniciado sesión como {username}', 'grupo':grupo}
             return render(request, 'index.html', context=context)
          else:
             form = AuthenticationForm()
@@ -66,7 +60,6 @@ def register_view(request):
          return render(request, 'auth/register.html', context=context)
       else:
          f_error = form.errors
-         # print (form.cleaned_data['username'])
          for key in f_error:
             error = f_error[key]
          form = Registro_usuario_form()

@@ -7,7 +7,7 @@
 {% if form %}
     <h2>Modificar producto</h2>
     <h3>Modifique los campos necesarios</h3>
-    
+    <h7 style=color:red >{{errors}}</h7>
 
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}

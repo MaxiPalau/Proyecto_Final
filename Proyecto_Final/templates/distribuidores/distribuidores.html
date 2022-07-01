@@ -41,7 +41,7 @@
                 <td style="width: Auto; font-size: small"><i class="bi bi-x-circle" style="text-align:right; font-size:20px; color:red"></i></td>
             {% endif %}
             <td>
-                <a href="/productos/edit-distribuidor/{{distribuidor.id}}" class="btn btn-primary" style="width: Auto; height: 30px ;font-size: smaller">Editar</a> 
+                <a href="/productos/update-distribuidor/{{distribuidor.id}}" class="btn btn-primary" style="width: Auto; height: 30px ;font-size: smaller">Editar</a> 
                 <a href="/productos/delete-distribuidor/{{distribuidor.id}}" class="btn btn-danger" style="width: Auto; height: 30px; font-size: smaller">Eliminar</a></td> 
             </td> 
             </tr>
@@ -49,21 +49,43 @@
     </tbody>
   </table>
   <div class="pagination" >
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; primera</a>
-            <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+    {% if object_list.has_other_pages %}
+    <nav>
+      <ul class="pagination justify-content-center">
+        {% if object_list.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ object_list.previous_page_number }}" aria-label="Anterior">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&laquo;</span>
+          </li>
         {% endif %}
 
-        <span class="current">
-            Pag {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-        </span>
+        {% for p in object_list.paginator.page_range %}
+          {% if object_list.number == p %}
+            <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+          {% endif %}
+        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+        {% if object_list.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ object_list.next_page_number }}" aria-label="Siguiente">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link" aria-hidden="true">&raquo;</span>
+          </li>
         {% endif %}
-    </span>
+    </ul>
+    </nav>
+  {% endif %}
 </div>
 </div class="text-right">
   <a href="/productos/create-distribuidor" class="btn btn-outline-success">Nuevo Proveedor </a> 

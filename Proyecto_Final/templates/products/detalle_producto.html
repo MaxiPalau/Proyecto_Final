@@ -9,7 +9,7 @@
     
     <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
 
-        {% if object.active == False and request.user.username == 'admin' %}
+        {% if object.active == False and grupo == True %}
         <div class="labels_image">
             <span class="producto_baja_c_stock">EOS / EOL</span>
         </div>
@@ -65,9 +65,9 @@
             Stock: {{ object.stock }} u.<br>
             Descripción: {{ object.descripcion }}<br>
 
-            {% if object.stock > 0 and request.user.username != 'admin' %}
+            {% if object.stock > 0 and grupo == False %}
                 <a href="#" class="btn btn-primary">Comprar</a>
-            {% elif request.user.username == 'admin' %}            
+            {% elif grupo == True %}
                 <a href="/productos/update-producto/{{object.id}}" class="btn btn-primary">Editar</a>
                 <a href="/productos/delete-producto/{{object.id}}" class="btn btn-danger">Eliminar</a>
             {% endif %}

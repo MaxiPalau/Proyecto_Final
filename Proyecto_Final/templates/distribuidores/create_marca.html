@@ -6,7 +6,7 @@
 
 {% if form %}
     <h1>Nueva Marca</h1>
-
+    <h7 style=color:red >{{errors}}</h7>
     <form action="" method="POST" >
         {% csrf_token %}
         <table>
@@ -15,7 +15,7 @@
         <input type="submit", value="Enviar!">
     </form>
 {% elif new_marca %}
-
+    <h1>Nueva Marca creada: {{new_marca.nombre}}</h1>
     <div class="card" style="width: 18rem;">
         
         <div class="card-body">

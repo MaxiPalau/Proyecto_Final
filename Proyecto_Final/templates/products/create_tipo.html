@@ -6,7 +6,7 @@
 
 {% if form %}
     <h1>Cargar Tipo</h1>
-
+    <h7 style=color:red >{{errors}}</h7>
     <form action="" method="POST" >
         {% csrf_token %}
         <table>
@@ -15,12 +15,12 @@
         <input type="submit", value="Enviar!">
     </form>
 {% elif new_tipo %}
-
+<h3>Nueva Categoría Generada</h3>
     <div class="card" style="width: 18rem;">
         
         <div class="card-body">
-            <h5 class="card-title">{{new_tipo.categoria}}</h5>
-            <p class="card-text">{{new_tipo.descripcion}}</p>
+            <h5 class="card-title">Categoría: {{new_tipo.categoria}}</h5>
+            <p class="card-text">Descripción: {{new_tipo.descripcion}}</p>
         </div>
     </div>
 

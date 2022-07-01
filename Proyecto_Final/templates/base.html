@@ -33,8 +33,8 @@
                   <li class="nav-item {% block nav_productos_activo %}{% endblock %}">
                     <a class="nav-link" href="/productos/">Productos</a>
                   </li>
-                  {% for id in id_grupo %}
-                  {% if id.name == 'Ferreteria' %}
+
+                  {% if grupo == True %}
                   <li class="nav-item dropdown {% block nav_administracion_activo %}{% endblock %}">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Administración
@@ -48,7 +48,7 @@
                     </ul>
                   </li>
                   {% endif %}
-                  {% endfor %}
+
                   {% if request.user.is_authenticated %}
                   <li class="nav-item {% block nav_logout_activo %}{% endblock %}">
                     <a class="nav-link" href="/logout">Logout</a>
