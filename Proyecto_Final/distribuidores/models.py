@@ -1,5 +1,4 @@
 from django.db import models
-# from marcas.models import Marcas
 
 # Create your models here.
 class Distribuidores(models.Model):
@@ -20,15 +19,3 @@ class Distribuidores(models.Model):
 
     def __str__(self):
         return self.razon_social
-
-# class Distribuidores_marcas(models.Model):
-#     marca = models.ForeignKey(Marcas, on_delete=models.CASCADE, related_name='nombre_marca')
-#     distribuidor = models.ForeignKey(Distribuidores, on_delete=models.CASCADE, related_name='nombre')
-#     active = models.BooleanField(default=True)
-    
-#     class Meta:
-#         verbose_name = 'Distribuidores x marca'
-#         verbose_name_plural = 'Distribuidores x marcas'
-
-#     def __str__(self):
-#         return str(self.distribuidor)

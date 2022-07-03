@@ -1,6 +1,7 @@
 
 from django.urls import path
 from categorias.views import list_tipo, create_tipo, update_tipo, delete_tipo
+
 urlpatterns = [
     # # path('tipos/', List_tipo.as_view(), name='tipos'),
     path('tipos/', list_tipo, name='tipos'),
