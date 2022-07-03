@@ -40,8 +40,11 @@ BASE_APPS = [
     'django.contrib.staticfiles',
 ]
 MY_APPS = [
-    'productos'
-
+    'productos',
+    'distribuidores',
+    'marcas',
+    'categorias',
+    'dist_marca'
 ]
 
 INSTALLED_APPS = BASE_APPS + MY_APPS

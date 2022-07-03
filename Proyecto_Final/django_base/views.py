@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django_base.forms import Registro_usuario_form 
 from django.contrib.auth.models import User, Group
-from productos.views import usuario_logueado
+from .functions import usuario_logueado
 
 
 def index(request):

@@ -5,41 +5,13 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
-from productos.forms import Productos_form, Marcas_form, Distribuidores_form, Distribuidores_marcas_form, Tipo_form
+from django_base.functions import usuario_logueado, paginator
+# from productos.models import Productos, Marcas, Tipo, Distribuidores, Distribuidores_marcas, Estados
+from productos.models import Productos, Marcas, Tipo, Estados
+# from productos.forms import Productos_form, Marcas_form, Distribuidores_form, Distribuidores_marcas_form, Tipo_form
+from productos.forms import Productos_form
 
 # Create your views here.
-
-def usuario_logueado(request):
-    if request.user.is_authenticated:
-        username  = request.user.username
-        id_usuario = User.objects.filter(username__icontains = username).values('id')
-        lista_grupo = list(Group.objects.filter(user__in = id_usuario).values_list('name', flat=True))
-
-        for grupo in lista_grupo:
-            if grupo == 'Ferreteria':
-                return True
-            else:
-                return False
-        # return id_grupo
-    else:
-        return False
-
-def paginator(request, object, item):
-    # object = queryset, lista de objetos que se quieren paginar
-    # item = int, cantidad de items por pagina
-    grupo = usuario_logueado(request)
-    pag = request.GET.get('page', 1)
-    paginator = Paginator(object, item)
-    try:
-        resultados = paginator.page(pag)
-    except PageNotAnInteger:
-        resultados = paginator.page(1)
-    except EmptyPage:
-        resultados = paginator.page(paginator.num_pages)
-    context = {'object_list':resultados, 'grupo':grupo}
-    return context
-
 # Productos basado en funciones obteniendo el grupo del usuario
 def list_productos(request):
     producto = Productos.objects.all()
@@ -114,7 +86,7 @@ def update_product(request, pk):
     grupo = usuario_logueado(request)
     if request.user.is_authenticated:
         producto = Productos.objects.get(id = pk)
-        form = Productos_form(request.POST or None, instance= producto)
+        form = Productos_form(request.POST or None, request.FILES or None, instance= producto)
         if form.is_valid():
             form.save()
             context = {'form':form, 'grupo':grupo}
@@ -143,282 +115,282 @@ def delete_product(request, pk):
     else:
         return redirect('index') 
 
-# Marcas basado en funciones obteniendo el grupo del usuario
-def list_marcas(request):
-    if request.user.is_authenticated:
-        marcas = Marcas.objects.all()
-        context = paginator(request, marcas, 6)
-        return render(request, 'distribuidores/marcas.html', context=context)
-    else:
-        return redirect('index')
+# # Marcas basado en funciones obteniendo el grupo del usuario
+# def list_marcas(request):
+#     if request.user.is_authenticated:
+#         marcas = Marcas.objects.all()
+#         context = paginator(request, marcas, 6)
+#         return render(request, 'distribuidores/marcas.html', context=context)
+#     else:
+#         return redirect('index')
 
-def create_marca(request):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        if request.method == 'GET':
-            form = Marcas_form()
-            context ={'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_marca.html', context=context)
-        else:
-            form = Marcas_form(request.POST)
-            if form.is_valid():
-                new_marca = Marcas.objects.create(
-                    nombre = form.cleaned_data['nombre'],
-                    descripcion = form.cleaned_data['descripcion'],
-                    active = form.cleaned_data['active']
-                )
-                context = {'new_marca':new_marca, 'grupo':grupo}
-            else:
-                f_error = form.errors
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_marca.html', context=context)
-    else:
-        return redirect('index')
+# def create_marca(request):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         if request.method == 'GET':
+#             form = Marcas_form()
+#             context ={'form':form, 'grupo':grupo}
+#             return render(request, 'distribuidores/create_marca.html', context=context)
+#         else:
+#             form = Marcas_form(request.POST)
+#             if form.is_valid():
+#                 new_marca = Marcas.objects.create(
+#                     nombre = form.cleaned_data['nombre'],
+#                     descripcion = form.cleaned_data['descripcion'],
+#                     active = form.cleaned_data['active']
+#                 )
+#                 context = {'new_marca':new_marca, 'grupo':grupo}
+#             else:
+#                 f_error = form.errors
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}
+#             return render(request, 'distribuidores/create_marca.html', context=context)
+#     else:
+#         return redirect('index')
 
-def update_marca(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        marca = Marcas.objects.get(id = pk)
-        form = Marcas_form(request.POST or None, instance= marca)
-        if form.is_valid():
-            form.save()
-            context = {'form':form, 'grupo':grupo}
-            return HttpResponseRedirect('/productos/marcas')
-        else:
-            f_error = form.errors        
-            if f_error.__len__() == 0:
-                context = {'form':form, 'grupo':grupo}
-            else:
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}        
-        return render(request, 'distribuidores/edit_marca.html', context=context)
-    else:
-        return redirect('index')
+# def update_marca(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         marca = Marcas.objects.get(id = pk)
+#         form = Marcas_form(request.POST or None, instance= marca)
+#         if form.is_valid():
+#             form.save()
+#             context = {'form':form, 'grupo':grupo}
+#             return HttpResponseRedirect('/productos/marcas')
+#         else:
+#             f_error = form.errors        
+#             if f_error.__len__() == 0:
+#                 context = {'form':form, 'grupo':grupo}
+#             else:
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}        
+#         return render(request, 'distribuidores/edit_marca.html', context=context)
+#     else:
+#         return redirect('index')
 
-def delete_marca(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        marca = Marcas.objects.get(id = pk)
-        context = {'object':marca, 'grupo':grupo}
-        if request.method == 'POST':
-            Marcas.objects.filter(id = pk).update(active = False)
-            return HttpResponseRedirect('/productos/marcas')
-        return render(request, 'distribuidores/delete_marca.html', context=context)       
-    else:
-        return redirect('index') 
+# def delete_marca(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         marca = Marcas.objects.get(id = pk)
+#         context = {'object':marca, 'grupo':grupo}
+#         if request.method == 'POST':
+#             Marcas.objects.filter(id = pk).update(active = False)
+#             return HttpResponseRedirect('/productos/marcas')
+#         return render(request, 'distribuidores/delete_marca.html', context=context)       
+#     else:
+#         return redirect('index') 
 
-# Distribuidores
-def list_distribuidor(request):
-    if request.user.is_authenticated:
-        distribuidores = Distribuidores.objects.all()
-        context = paginator(request, distribuidores, 6)
-        return render(request, 'distribuidores/distribuidores.html', context=context)
-    else:
-        return redirect('index')
+# # Distribuidores
+# def list_distribuidor(request):
+#     if request.user.is_authenticated:
+#         distribuidores = Distribuidores.objects.all()
+#         context = paginator(request, distribuidores, 6)
+#         return render(request, 'distribuidores/distribuidores.html', context=context)
+#     else:
+#         return redirect('index')
 
-def create_distribuidor(request):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        if request.method == 'GET':
-            form = Distribuidores_form()
-            context ={'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_distribuidor.html', context=context)
-        else:
-            form = Distribuidores_form(request.POST)
-            if form.is_valid():
-                new_distribuidor = Distribuidores.objects.create(
-                    razon_social = form.cleaned_data['razon_social'],
-                    direccion = form.cleaned_data['direccion'],
-                    localidad = form.cleaned_data['localidad'],
-                    pais = form.cleaned_data['pais'],
-                    telefono = form.cleaned_data['telefono'],
-                    mail = form.cleaned_data['mail'],
-                    web = form.cleaned_data['web'],
-                    cuit = form.cleaned_data['cuit'],
-                    descripcion = form.cleaned_data['descripcion'],
-                    active = form.cleaned_data['active']
-                )
-                context = {'new_distribuidor':new_distribuidor, 'grupo':grupo}
-            else:
-                f_error = form.errors
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_distribuidor.html', context=context)
-    else:
-        return redirect('index')
+# def create_distribuidor(request):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         if request.method == 'GET':
+#             form = Distribuidores_form()
+#             context ={'form':form, 'grupo':grupo}
+#             return render(request, 'distribuidores/create_distribuidor.html', context=context)
+#         else:
+#             form = Distribuidores_form(request.POST)
+#             if form.is_valid():
+#                 new_distribuidor = Distribuidores.objects.create(
+#                     razon_social = form.cleaned_data['razon_social'],
+#                     direccion = form.cleaned_data['direccion'],
+#                     localidad = form.cleaned_data['localidad'],
+#                     pais = form.cleaned_data['pais'],
+#                     telefono = form.cleaned_data['telefono'],
+#                     mail = form.cleaned_data['mail'],
+#                     web = form.cleaned_data['web'],
+#                     cuit = form.cleaned_data['cuit'],
+#                     descripcion = form.cleaned_data['descripcion'],
+#                     active = form.cleaned_data['active']
+#                 )
+#                 context = {'new_distribuidor':new_distribuidor, 'grupo':grupo}
+#             else:
+#                 f_error = form.errors
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}
+#             return render(request, 'distribuidores/create_distribuidor.html', context=context)
+#     else:
+#         return redirect('index')
 
-def update_distribuidor(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        marca = Distribuidores.objects.get(id = pk)
-        form = Distribuidores_form(request.POST or None, instance= marca)
-        if form.is_valid():
-            form.save()
-            context = {'form':form, 'grupo':grupo}
-            return HttpResponseRedirect('/productos/distribuidores')
-        else:
-            f_error = form.errors        
-            if f_error.__len__() == 0:
-                context = {'form':form, 'grupo':grupo}
-            else:
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}        
-        return render(request, 'distribuidores/edit_distribuidor.html', context=context)
-    else:
-        return redirect('index')
+# def update_distribuidor(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         marca = Distribuidores.objects.get(id = pk)
+#         form = Distribuidores_form(request.POST or None, instance= marca)
+#         if form.is_valid():
+#             form.save()
+#             context = {'form':form, 'grupo':grupo}
+#             return HttpResponseRedirect('/productos/distribuidores')
+#         else:
+#             f_error = form.errors        
+#             if f_error.__len__() == 0:
+#                 context = {'form':form, 'grupo':grupo}
+#             else:
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}        
+#         return render(request, 'distribuidores/edit_distribuidor.html', context=context)
+#     else:
+#         return redirect('index')
 
-def delete_distribuidor(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        marca = Distribuidores.objects.get(id = pk)
-        context = {'object':marca, 'grupo':grupo}
-        if request.method == 'POST':
-            Distribuidores.objects.filter(id = pk).update(active = False)
-            return HttpResponseRedirect('/productos/distribuidores')
-        return render(request, 'distribuidores/delete_distribuidor.html', context=context)       
-    else:
-        return redirect('index') 
+# def delete_distribuidor(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         marca = Distribuidores.objects.get(id = pk)
+#         context = {'object':marca, 'grupo':grupo}
+#         if request.method == 'POST':
+#             Distribuidores.objects.filter(id = pk).update(active = False)
+#             return HttpResponseRedirect('/productos/distribuidores')
+#         return render(request, 'distribuidores/delete_distribuidor.html', context=context)       
+#     else:
+#         return redirect('index') 
 
-# Distribuidores x marcas
+# # Distribuidores x marcas
 
-def list_distribuidor_marca(request):
-    if request.user.is_authenticated:
-        distribuidores_m = Distribuidores_marcas.objects.all()
-        print(distribuidores_m)
-        context = paginator(request, distribuidores_m, 6)
-        return render(request, 'distribuidores/list_dist_marca.html', context=context)
-    else:
-        return redirect('index')
+# def list_distribuidor_marca(request):
+#     if request.user.is_authenticated:
+#         distribuidores_m = Distribuidores_marcas.objects.all()
+#         print(distribuidores_m)
+#         context = paginator(request, distribuidores_m, 6)
+#         return render(request, 'distribuidores/list_dist_marca.html', context=context)
+#     else:
+#         return redirect('index')
 
-def create_distribuidor_marca(request):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        if request.method == 'GET':
-            form = Distribuidores_marcas_form()
-            context = {'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_dist_marca.html', context=context)
-        else:
-            form = Distribuidores_marcas_form(request.POST)
-            if form.is_valid():
-                new_distribuidor_m = Distribuidores_marcas.objects.create(
-                    marca = form.cleaned_data['marca'],
-                    distribuidor = form.cleaned_data['distribuidor'],
-                    active = form.cleaned_data['active'] 
-                )
-                context ={'new_distribuidor_m':new_distribuidor_m, 'grupo':grupo}
-            else:
-                    f_error = form.errors
-                    for key in f_error:
-                        error = f_error[key]
-                    context = {'errors':error, 'form':form, 'grupo':grupo}
-            return render(request, 'distribuidores/create_dist_marca.html', context=context)
-    else:
-        return redirect('index')
+# def create_distribuidor_marca(request):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         if request.method == 'GET':
+#             form = Distribuidores_marcas_form()
+#             context = {'form':form, 'grupo':grupo}
+#             return render(request, 'distribuidores/create_dist_marca.html', context=context)
+#         else:
+#             form = Distribuidores_marcas_form(request.POST)
+#             if form.is_valid():
+#                 new_distribuidor_m = Distribuidores_marcas.objects.create(
+#                     marca = form.cleaned_data['marca'],
+#                     distribuidor = form.cleaned_data['distribuidor'],
+#                     active = form.cleaned_data['active'] 
+#                 )
+#                 context ={'new_distribuidor_m':new_distribuidor_m, 'grupo':grupo}
+#             else:
+#                     f_error = form.errors
+#                     for key in f_error:
+#                         error = f_error[key]
+#                     context = {'errors':error, 'form':form, 'grupo':grupo}
+#             return render(request, 'distribuidores/create_dist_marca.html', context=context)
+#     else:
+#         return redirect('index')
 
-def update_distribuidor_marca(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        dist_marca = Distribuidores_marcas.objects.get(id = pk)
-        form = Distribuidores_marcas_form(request.POST or None, instance= dist_marca)
-        if form.is_valid():
-            form.save()
-            context = {'form':form, 'grupo':grupo}
-            return HttpResponseRedirect('/productos/dist-marca')
-        else:
-            f_error = form.errors        
-            if f_error.__len__() == 0:
-                context = {'form':form, 'grupo':grupo}
-            else:
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}        
-        return render(request, 'distribuidores/update_dist_marca.html', context=context)
-    else:
-        return redirect('index')
+# def update_distribuidor_marca(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         dist_marca = Distribuidores_marcas.objects.get(id = pk)
+#         form = Distribuidores_marcas_form(request.POST or None, instance= dist_marca)
+#         if form.is_valid():
+#             form.save()
+#             context = {'form':form, 'grupo':grupo}
+#             return HttpResponseRedirect('/productos/dist-marca')
+#         else:
+#             f_error = form.errors        
+#             if f_error.__len__() == 0:
+#                 context = {'form':form, 'grupo':grupo}
+#             else:
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}        
+#         return render(request, 'distribuidores/update_dist_marca.html', context=context)
+#     else:
+#         return redirect('index')
         
-def delete_distribuidor_marca(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        dist_marca = Distribuidores_marcas.objects.get(id = pk)
-        context = {'object':dist_marca, 'grupo':grupo}
-        if request.method == 'POST':
-            Distribuidores_marcas.objects.filter(id = pk).update(active = False)
-            return HttpResponseRedirect('/productos/dist-marca')
-        return render(request, 'distribuidores/delete_dist_marca.html', context=context)       
-    else:
-        return redirect('index') 
+# def delete_distribuidor_marca(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         dist_marca = Distribuidores_marcas.objects.get(id = pk)
+#         context = {'object':dist_marca, 'grupo':grupo}
+#         if request.method == 'POST':
+#             Distribuidores_marcas.objects.filter(id = pk).update(active = False)
+#             return HttpResponseRedirect('/productos/dist-marca')
+#         return render(request, 'distribuidores/delete_dist_marca.html', context=context)       
+#     else:
+#         return redirect('index') 
 
-# Categorias/Tipos
-def list_tipo(request):
-    if request.user.is_authenticated:
-        tipos = Tipo.objects.all()
-        context = paginator(request, tipos, 6)
-        return render(request, 'products/tipos.html', context=context)
-    else:
-        return redirect('index')  
+# # Categorias/Tipos
+# def list_tipo(request):
+#     if request.user.is_authenticated:
+#         tipos = Tipo.objects.all()
+#         context = paginator(request, tipos, 6)
+#         return render(request, 'products/tipos.html', context=context)
+#     else:
+#         return redirect('index')  
 
-def create_tipo(request):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        if request.method == 'GET':
-            form = Tipo_form()
-            context ={'form':form, 'grupo':grupo}
-            return render(request, 'products/create_tipo.html', context=context)
-        else:
-            form = Tipo_form(request.POST)
-            if form.is_valid():
-                new_tipo = Tipo.objects.create(
-                    categoria = form.cleaned_data['categoria'],
-                    descripcion = form.cleaned_data['descripcion'],
-                    active = form.cleaned_data['active']
-                )
-                context = {'new_tipo':new_tipo, 'grupo':grupo}
-            else:
-                f_error = form.errors
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}
-            return render(request, 'products/create_tipo.html', context=context)
-    else:
-        return redirect('index')
+# def create_tipo(request):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         if request.method == 'GET':
+#             form = Tipo_form()
+#             context ={'form':form, 'grupo':grupo}
+#             return render(request, 'products/create_tipo.html', context=context)
+#         else:
+#             form = Tipo_form(request.POST)
+#             if form.is_valid():
+#                 new_tipo = Tipo.objects.create(
+#                     categoria = form.cleaned_data['categoria'],
+#                     descripcion = form.cleaned_data['descripcion'],
+#                     active = form.cleaned_data['active']
+#                 )
+#                 context = {'new_tipo':new_tipo, 'grupo':grupo}
+#             else:
+#                 f_error = form.errors
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}
+#             return render(request, 'products/create_tipo.html', context=context)
+#     else:
+#         return redirect('index')
 
-def update_tipo(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        marca = Tipo.objects.get(id = pk)
-        form = Tipo_form(request.POST or None, instance= marca)
-        if form.is_valid():
-            form.save()
-            context = {'form':form, 'grupo':grupo}
-            return HttpResponseRedirect('/productos/tipos')
-        else:
-            f_error = form.errors        
-            if f_error.__len__() == 0:
-                context = {'form':form, 'grupo':grupo}
-            else:
-                for key in f_error:
-                    error = f_error[key]
-                context = {'errors':error, 'form':form, 'grupo':grupo}        
-        return render(request, 'products/edit_tipo.html', context=context)
-    else:
-        return redirect('index')
+# def update_tipo(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         marca = Tipo.objects.get(id = pk)
+#         form = Tipo_form(request.POST or None, instance= marca)
+#         if form.is_valid():
+#             form.save()
+#             context = {'form':form, 'grupo':grupo}
+#             return HttpResponseRedirect('/productos/tipos')
+#         else:
+#             f_error = form.errors        
+#             if f_error.__len__() == 0:
+#                 context = {'form':form, 'grupo':grupo}
+#             else:
+#                 for key in f_error:
+#                     error = f_error[key]
+#                 context = {'errors':error, 'form':form, 'grupo':grupo}        
+#         return render(request, 'products/edit_tipo.html', context=context)
+#     else:
+#         return redirect('index')
 
-def delete_tipo(request, pk):
-    grupo = usuario_logueado(request)
-    if request.user.is_authenticated:
-        categoria = Tipo.objects.get(id = pk)
-        context = {'object':categoria, 'grupo':grupo}
-        if request.method == 'POST':
-            Tipo.objects.filter(id = pk).update(active = False)
-            return HttpResponseRedirect('/productos/tipos')
-        return render(request, 'products/delete_tipo.html', context=context)       
-    else:
-        return redirect('index') 
+# def delete_tipo(request, pk):
+#     grupo = usuario_logueado(request)
+#     if request.user.is_authenticated:
+#         categoria = Tipo.objects.get(id = pk)
+#         context = {'object':categoria, 'grupo':grupo}
+#         if request.method == 'POST':
+#             Tipo.objects.filter(id = pk).update(active = False)
+#             return HttpResponseRedirect('/productos/tipos')
+#         return render(request, 'products/delete_tipo.html', context=context)       
+#     else:
+#         return redirect('index') 
 
 
 #############################################################################################

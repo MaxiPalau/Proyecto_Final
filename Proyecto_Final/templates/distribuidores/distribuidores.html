@@ -41,8 +41,8 @@
                 <td style="width: Auto; font-size: small"><i class="bi bi-x-circle" style="text-align:right; font-size:20px; color:red"></i></td>
             {% endif %}
             <td>
-                <a href="/productos/update-distribuidor/{{distribuidor.id}}" class="btn btn-primary" style="width: Auto; height: 30px ;font-size: smaller">Editar</a> 
-                <a href="/productos/delete-distribuidor/{{distribuidor.id}}" class="btn btn-danger" style="width: Auto; height: 30px; font-size: smaller">Eliminar</a></td> 
+                <a href="/distribuidores/update-distribuidor/{{distribuidor.id}}" class="btn btn-primary" style="width: Auto; height: 30px ;font-size: smaller">Editar</a> 
+                <a href="/distribuidores/delete-distribuidor/{{distribuidor.id}}" class="btn btn-danger" style="width: Auto; height: 30px; font-size: smaller">Eliminar</a></td> 
             </td> 
             </tr>
         {% endfor%}
@@ -88,6 +88,6 @@
   {% endif %}
 </div>
 </div class="text-right">
-  <a href="/productos/create-distribuidor" class="btn btn-outline-success">Nuevo Proveedor </a> 
+  <a href="/distribuidores/create-distribuidor" class="btn btn-outline-success">Nuevo Proveedor </a> 
 </div>
 {% endblock %}
