@@ -84,4 +84,12 @@
         margin-top: 50px;
       }
 
+.pagination_nav {
+  margin: 40px auto !important;
+}
+
+.pagination {
+  overflow: hidden !important; 
+  width: 100%;
+}
       
