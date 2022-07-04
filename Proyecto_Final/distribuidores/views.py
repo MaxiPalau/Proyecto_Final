@@ -8,7 +8,7 @@ from distribuidores.forms import Distribuidores_form
 # Distribuidores
 def list_distribuidor(request):
     if request.user.is_authenticated:
-        distribuidores = Distribuidores.objects.all()
+        distribuidores = Distribuidores.objects.all().order_by('id')
         context = paginator(request, distribuidores, 6)
         return render(request, 'distribuidores/distribuidores.html', context=context)
     else:

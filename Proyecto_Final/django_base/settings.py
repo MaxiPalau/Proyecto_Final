@@ -44,7 +44,8 @@ MY_APPS = [
     'distribuidores',
     'marcas',
     'categorias',
-    'dist_marca'
+    'dist_marca',
+    'accounts'
 ]
 
 INSTALLED_APPS = BASE_APPS + MY_APPS

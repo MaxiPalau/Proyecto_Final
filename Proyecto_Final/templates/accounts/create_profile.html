@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block titulo %} Cargar Marca{% endblock %}
+{% block titulo %}Crear Perfil{% endblock %}
 {% block nav_administracion_activo %}active{% endblock %}
 {% block contenido %}
 
 {% if form %}
-    <h1>Nueva Marca</h1>
+    <h1>Datos del perfil</h1>
     <h7 style=color:red >{{errors}}</h7>
     <form action="" method="POST" >
         {% csrf_token %}
@@ -14,19 +14,19 @@
         </table>
         <input type="submit", value="Enviar!">
     </form>
-{% elif new_marca %}
-    <h1>Nueva Marca creada: {{new_marca.nombre}}</h1>
+{% elif new_tipo %}
+<h3>Nueva Categoría Generada</h3>
     <div class="card" style="width: 18rem;">
         
         <div class="card-body">
-            <h5 class="card-title">{{new_marca.nombre}}</h5>
-            <p class="card-text">{{new_marca.descripcion}}</p>
-            
+            <h5 class="card-title">Categoría: {{new_tipo.categoria}}</h5>
+            <p class="card-text">Descripción: {{new_tipo.descripcion}}</p>
         </div>
+    </div class="text-right">
+    <a href="/categorias/tipos" class="btn btn-outline-success">Volver</a> 
     </div>
-</div class="text-right">
-<a href="/marcas/marcas" class="btn btn-outline-success">Volver</a> 
-</div>
+    </div>
+
 
 {% endif %}
 

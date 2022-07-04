@@ -8,7 +8,7 @@ from marcas.forms import Marcas_form
 # Marcas basado en funciones obteniendo el grupo del usuario
 def list_marcas(request):
     if request.user.is_authenticated:
-        marcas = Marcas.objects.all()
+        marcas = Marcas.objects.all().order_by('id')
         context = paginator(request, marcas, 6)
         return render(request, 'marcas/marcas.html', context=context)
     else:

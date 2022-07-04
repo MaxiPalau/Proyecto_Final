@@ -14,15 +14,29 @@
         </table>
         <input type="submit", value="Enviar!">
     </form>
-{% elif new_tipo %}
-<h3>Nueva Categoría Generada</h3>
-    <div class="card" style="width: 18rem;">
-        
-        <div class="card-body">
-            <h5 class="card-title">Categoría: {{new_tipo.categoria}}</h5>
-            <p class="card-text">Descripción: {{new_tipo.descripcion}}</p>
-        </div>
+{% elif new_profile %}
+<h3>Nuevo Perfil Generado</h3>
+<div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
+     
+    <div class="images_box">
+        <img src="{{ object.image.url }}" class="card-img-top" alt="...">
     </div>
+    <div class="card-body">
+        <div style="text-align: center;">
+        </div>
+        
+        <h5 class="card-title" style="text-align: left;">Usuario: {{ object.username }}</h5>
+        <p class="card-text"></p>
+        
+                            
+        Nombre: {{ object.first_name }}<br>
+        Apellido: {{ object.last_name }}<br>
+        Email: {{ object.email }}<br>
+        Teléfono: {{ object.phone }}<br>           
+        <a href="/accounts/update-profile/{{object.id}}" class="btn btn-primary">Editar</a>
+    </div>
+</div> 
+
 
 {% endif %}
 

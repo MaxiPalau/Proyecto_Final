@@ -33,8 +33,8 @@
                 <td><i class="bi bi-x-circle" style="text-align:right; font-size:30px; color:red"></i></td>
             {% endif %}
             <td>
-                <a href="/dist_marca/update-distribuidorm/{{objeto.id}}" class="btn btn-primary">Editar</a> 
-                <a href="/dist_marca/delete-distribuidorm/{{objeto.id}}" class="btn btn-danger">Eliminar</a></td> 
+                <a href="/dist-marca/update/{{objeto.id}}" class="btn btn-primary">Editar</a> 
+                <a href="/dist-marca/delete/{{objeto.id}}" class="btn btn-danger">Eliminar</a></td> 
             </td> 
             </tr>
         {% endfor%}
@@ -80,6 +80,6 @@
   {% endif %}
 </div>
 </div>
-  <a href="/dist_marca/create-distribuidorm/" class="btn btn-outline-success">Nuevo Distribuidor x Marca</a></td> 
+  <a href="/dist-marca/create/" class="btn btn-outline-success">Nuevo Distribuidor x Marca</a></td> 
 
 {% endblock %}

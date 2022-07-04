@@ -10,8 +10,7 @@ from dist_marca.forms import Distribuidores_marcas_form
 
 def list_distribuidor_marca(request):
     if request.user.is_authenticated:
-        distribuidores_m = Distribuidores_marcas.objects.all()
-        print(distribuidores_m)
+        distribuidores_m = Distribuidores_marcas.objects.all().order_by('id')
         context = paginator(request, distribuidores_m, 6)
         return render(request, 'dist_marca/list_dist_marca.html', context=context)
     else:

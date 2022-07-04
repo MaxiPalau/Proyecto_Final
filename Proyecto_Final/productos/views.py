@@ -3,29 +3,31 @@ from django.http import HttpResponseRedirect
 from django_base.functions import usuario_logueado, paginator
 from productos.models import Productos, Estados
 from productos.forms import Productos_form
+from marcas.models import Marcas
+from categorias.models import Tipo
 
 # Create your views here.
 # Productos basado en funciones obteniendo el grupo del usuario
 def list_productos(request):
-    producto = Productos.objects.all()
+    producto = Productos.objects.all().order_by('id')
     context = paginator(request, producto, 6)
     return render(request, 'products/productos.html', context=context)
 
 def search_product(request):
     grupo = usuario_logueado(request)   
-    productos = Productos.objects.filter(nombre__icontains = request.GET['search'])
+    productos = Productos.objects.filter(nombre__icontains = request.GET['search']).order_by('id')
     marcas = Marcas.objects.filter(nombre__icontains = request.GET['search']).values('id')
     tipos = Tipo.objects.filter(categoria__icontains = request.GET['search']).values('id')
     if productos.exists():
         context = {'object_list':productos, 'grupo':grupo}
         # context = paginator(request, productos, 6)
     elif marcas.exists():
-        productos = Productos.objects.filter(marca__in = marcas)
+        productos = Productos.objects.filter(marca__in = marcas).order_by('id')
         context = {'object_list':productos, 'grupo':grupo}
         # context = paginator(request, productos, 6)
-        print(context)
+
     elif tipos.exists():
-        productos = Productos.objects.filter(tipo__in = tipos)
+        productos = Productos.objects.filter(tipo__in = tipos).order_by('id')
         context = {'object_list':productos, 'grupo':grupo}
         # context = paginator(request, productos, 6)
     else:

@@ -8,7 +8,7 @@ from categorias.forms import Tipo_form
 # Categorias/Tipos
 def list_tipo(request):
     if request.user.is_authenticated:
-        tipos = Tipo.objects.all()
+        tipos = Tipo.objects.all().order_by('id')
         context = paginator(request, tipos, 6)
         return render(request, 'categorias/tipos.html', context=context)
     else:
@@ -42,8 +42,8 @@ def create_tipo(request):
 def update_tipo(request, pk):
     grupo = usuario_logueado(request)
     if request.user.is_authenticated:
-        marca = Tipo.objects.get(id = pk)
-        form = Tipo_form(request.POST or None, instance= marca)
+        tipo = Tipo.objects.get(id = pk)
+        form = Tipo_form(request.POST or None, instance= tipo)
         if form.is_valid():
             form.save()
             context = {'form':form, 'grupo':grupo}
