@@ -13,6 +13,9 @@ def index(request):
    return render(request, 'index.html', context = context)
    # return render(request, 'index.html', context = {})
 
+def about(request):
+   return render(request, 'about.html', context = {})
+
 # def login_view(request):
 #    if request.method == 'POST':
 #       form = AuthenticationForm(request, data = request.POST)
