@@ -7,7 +7,16 @@
 {% if form %}
     <h1>Datos del perfil</h1>
     <h7 style=color:red >{{errors}}</h7>
-    <form action="" method="POST" >
+test
+   <p>{{request.username}}</p>
+   <p>{{request.first_name}}</p>
+   <p>{{request.last_name}}</p>
+   <p>{{request.email}}</p>
+   <p>{{request.phone}}</p>
+   <p>{{request.image}}</p>
+
+
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
             {{form.as_table}}

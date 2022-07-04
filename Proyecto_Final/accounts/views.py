@@ -105,20 +105,29 @@ def create_profile(request):
          id_usuario = list(User.objects.filter(username__icontains = username).values_list('id', flat=True))
          form.username = id_usuario
          print(f'ID USUARIO: {id_usuario}')
-         for item, v in form.fields:
-            print(item, v)
-         print(form.fields.username)
-         print(form.cleaned_data['first name'])
-         print(form.cleaned_data['last name'])
-         print(form.cleaned_data['email'])
-         print(form.cleaned_data['phone'])
+         #for item, v in form.fields:
+         #  print(item, v)
+         for item in form.fields:
+           print(item)
+         print(form.fields['username'])
+
+         print(form.fields['first_name'])
+         print(form.fields['last_name'])
+         print(form.fields['email'])
+         print(form.fields['phone'])
          print(request.FILES['image'])
+
+         #print(form.cleaned_data['first_name'])
+         #print(form.cleaned_data['last_name'])
+         #print(form.cleaned_data['email'])
+         #print(form.cleaned_data['phone'])
+         #print(request.FILES['image'])
          if form.is_valid():
             print('FORMULARIO VALIDO')
             new_profile = User_profile.objects.create(
                username = form.cleaned_data['username'],
-               first_name = form.cleaned_data['first name'],
-               last_name = form.cleaned_data['last name'],
+               first_name = form.cleaned_data['first_name'],
+               last_name = form.cleaned_data['last_name'],
                email = form.cleaned_data['email'],
                phone = form.cleaned_data['phone'],
                image = request.FILES['image'],
