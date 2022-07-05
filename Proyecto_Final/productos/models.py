@@ -15,7 +15,7 @@ class Productos(models.Model):
     descuento = models.FloatField()
     novedad = models.BooleanField()    
     imagen = models.ImageField(upload_to = 'prod_images', default='')
-    descripcion = models.CharField(max_length=200, blank=True, default='')
+    descripcion = models.CharField(max_length=600, blank=True, default='')
     active = models.BooleanField(default=True)
 
     class Meta:

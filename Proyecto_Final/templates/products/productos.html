@@ -11,7 +11,7 @@
     {% if producto.active == False and producto.stock == 0 and grupo == False %}
 
     {% else %}
-    <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
+    <div class="card">
         
         {% if producto.active == False and grupo == True %}
         <div class="labels_image">
@@ -67,6 +67,11 @@
                                 
             Tipo: {{ producto.tipo }}<br>
             Stock: {{ producto.stock }} u.<br>
+
+
+            <div style="margin: 20px 0px;">
+              {{ producto.descripcion|truncatechars:100 }}
+            </div>
             
           
             {% if producto.stock > 0 and grupo == False %}

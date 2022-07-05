@@ -13,6 +13,13 @@
   
 }
 
+.card {
+  width: 18rem; 
+  float: left; 
+  margin: 10px; 
+  height: 700px;
+}
+
 .labels_image {
   width: 100%; 
   float:left; 
@@ -51,7 +58,8 @@
 .titulo_seccion {
   border-radius: 1px solid #cecece;
   padding: 20px;
-  margin-bottom: 30px;
+  margin: 30px 0px;
+
   
 }
 .logo{

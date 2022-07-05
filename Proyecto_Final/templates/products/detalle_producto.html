@@ -5,77 +5,73 @@
 
 {% block contenido %}
 
-    <div class="titulo_seccion"><h2>Detalles</h2></div>
+    <div class="titulo_seccion">        
+        <h1 style="color: #3671a3;">{{ object.sku }} - {{ object.nombre }}</h1>
+    </div>
     
-    <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
+    
 
-        {% if object.active == False and grupo == True %}
-        <div class="labels_image">
-            <span class="producto_baja_c_stock">EOS / EOL</span>
+    <div class="row mb-3">
+        <div class="col-md-8 themed-grid-col">
+            <div class="pb-3">
+                <img src="{{ object.imagen.url }}" class="card-img-top" alt="{{ object.nombre }}">
+            </div>
+            <div class="row">
+                <div class="col-md-6 themed-grid-col">&nbsp;</div>
+                <div class="col-md-6 themed-grid-col">&nbsp;</div>
+            </div>
         </div>
-        {% elif object.active == False %}
-        <div class="labels_image">
-            <span class="producto_baja_c_stock">Últimos disponibles</span>
-        </div>
-        {% endif %}
-        
-        {% if object.novedad == True %}
-            <div class="labels_image">
+        <div class="col-md-4 themed-grid-col">
+            
+            {% if object.novedad == True %}
                 <span class="producto_nuevo">Nuevo</span>
-            </div>
-        {% else %}            
-            
-        {% endif %}
-
-        {% if object.descuento > 0 %}
-        <div class="labels_image">
-            <span class="producto_descuento">{{ object.descuento }} % OFF!</span>
-        </div> 
-        {% else %}            
-            
-        {% endif %}
-
-        {% if object.stock == 0 %}
-        <div class="labels_image label_stock">
-            <span class="producto_stock">PRODUCTO SIN STOCK!</span>
-        </div> 
-        {% else %}            
-            
-        {% endif %}
-
-     
-        <div class="images_box">
-            <img src="{{ object.imagen.url }}" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-            <div style="text-align: center;">
-            {% if object.stock == 0  %}
-                <h2><del>$ {{ object.precio }}</del></h2>
             {% else %}            
-                <h2>$ {{ object.precio }}</h2>
             {% endif %}
+
+            {% if object.descuento > 0 %}
+                <span class="producto_descuento">{{ object.descuento }} % OFF!</span>
+            {% else %}
+            {% endif %}
+
+            {% if object.stock == 0 %}
+                <span class="producto_stock">PRODUCTO SIN STOCK!</span>
+            {% else %}            
+            {% endif %}
+            
+            <div style="text-align: center; margin: 30px 0px; padding-bottom: 15px; border-bottom:  1px solid #cecece;">
+                {% if object.stock == 0  %}
+                <h2><del>$ {{ object.precio }}</del></h2>
+                {% else %}            
+                <h1>$ {{ object.precio }}    <a href="#" class="btn btn-primary">Comprar</a></h1>
+                
+                {% endif %}
             </div>
             
-            <h5 class="card-title" style="margin:10px">{{ object.sku }} - {{ object.nombre }}</h5>
-            <div class="card-text" style="text-align: center; margin-bottom: 15px;">{{object.marca}}</div>
-            <p class="card-text"></p>
+                     
+            <strong>Marca:</strong> {{object.marca}}<br>        
+            <strong>Tipo:</strong> {{ object.tipo }}<br>
+            <strong>Stock:</strong> {{ object.stock }} u.<br><br>
             
-                                
-            Tipo: {{ object.tipo }}<br>
-            Stock: {{ object.stock }} u.<br>
-            Descripción: {{ object.descripcion }}<br>
+            <strong>Descripción:</strong> {{ object.descripcion }}<br>
 
-            {% if object.stock > 0 and grupo == False %}
-                <a href="#" class="btn btn-primary">Comprar</a>
-            {% elif grupo == True %}
+
+            
+           
+
+            
+           
+            
+            {% if request.user.username == 'admin' %}   
+            <div style="margin: 20px; border-top: 1px solid #cecece; padding-top:15px">       
                 <a href="/productos/update-producto/{{object.id}}" class="btn btn-primary">Editar</a>
                 <a href="/productos/delete-producto/{{object.id}}" class="btn btn-danger">Eliminar</a>
+            </div>
             {% endif %}
-            
+
 
         </div>
     </div>
-       
-    
+
+
     
 {% endblock %}
