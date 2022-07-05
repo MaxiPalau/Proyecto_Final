@@ -107,4 +107,14 @@
 .row {
   margin: 40px 10px;
 }
+
+
+.table-bordered {
+  border: 1px solid #000 !important;
+}
+.table-bordered thead {
+background-color: #3671a3;
+color: #fff;
+  
+}
       
