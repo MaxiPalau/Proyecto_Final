@@ -4,14 +4,33 @@
 {% block nav_administracion_activo %}active{% endblock %}
 {% block contenido %}
 
-    <h2 style="margin-left:35%">Por favor inicie sesión</h2>
-    <h7 style=color:red >{{errors}}</h7>
-    <form action="" method="POST" style="margin-left:35%">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type="submit", value="Ingresar" style="margin-left:20%">
-    </form>
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+        <div class="modal-header p-5 pb-4 border-bottom-0">
+            <h2 class="fw-bold mb-0">Por favor inicie sesión</h2>
+        </div>
+
+        <div class="modal-body pt-0" style="padding: 15px !important;">
+            <hr class="my-4">
+            <h6 class="fs-5 fw-bold mb-3" style=color:red >{{errors}}</h6>
+            <form action="" method="POST">
+                <div class="form-floating mb-3">
+                    {% csrf_token %}
+                    <table>
+                        {{form.as_table}}
+                    </table>
+                </div>
+                
+                <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Ingresar</button>
+                <medium class="text-muted">No tiene usuario? Cree uno <a href="/accounts/register/">aquí</a></medium>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+    
+      
     
 {% endblock %}
