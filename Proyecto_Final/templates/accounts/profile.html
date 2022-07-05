@@ -21,10 +21,11 @@
             <p class="card-text"></p>
             
                                 
-            Nombre: {{ object.first_name }}<br>
-            Apellido: {{ object.last_name }}<br>
-            Email: {{ object.email }}<br>
-            Teléfono: {{ object.phone }}<br>           
+            Nombre: {{ object.username.first_name }}<br>
+            Apellido: {{ object.username.last_name }}<br>
+            Email: {{ object.username.email }}<br>
+            Link: {{ object.link }}<br>
+            Descripcion: {{ object.descripcion }}<br>           
             <a href="/accounts/update-profile/{{object.id}}" class="btn btn-primary">Editar</a>
         </div>
     </div> 

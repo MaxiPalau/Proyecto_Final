@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Compraste!{% endblock %}
+{% block nav_productos_activo %}active{% endblock %}
+
+{% block contenido %}
+
+    <div class="titulo_seccion"><h2>Felicitaciones compreaste el producto!!!</h2></div>
+
+    <div class="card" style="width: 18rem; float: left; margin: 10px; height: 640px;">
+
+        <div class="images_box">
+            <img src="{{ object.imagen.url }}" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+            <div style="text-align: center;">     
+                <h2>$ {{ object.precio }}</h2>
+            </div>
+
+            <h5 class="card-title" style="margin:10px">{{ object.sku }} - {{ object.nombre }}</h5>
+            <div class="card-text" style="text-align: center; margin-bottom: 15px;">{{object.marca}}</div>
+            <p class="card-text"></p>                              
+        </div>
+    </div>
+
+
+
+{% endblock %} 

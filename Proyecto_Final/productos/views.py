@@ -108,4 +108,10 @@ def delete_product(request, pk):
             return HttpResponseRedirect('/productos')
         return render(request, 'products/delete_producto.html', context=context)       
     else:
-        return redirect('index') 
+        return redirect('index')
+
+def compra_product(request,pk):
+    grupo = usuario_logueado(request)
+    producto = Productos.objects.get(id = pk)
+    context = {'object':producto, 'grupo':grupo}
+    return render(request, 'products/compra.html', context=context) 

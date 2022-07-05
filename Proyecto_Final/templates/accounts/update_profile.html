@@ -4,16 +4,18 @@
 {% block nav_administracion_activo %}active{% endblock %}
 {% block contenido %}
 
-{% if form %}
-    <h2>Modificar Perfil</h2>
-    <h3>Modifique los campos necesarios</h3>
-    <h7 style=color:red >{{errors}}</h7>
+{% if form_user %}
+    <h2>{{user}}, aquí puedes modificar tu perfil</h2>
+    <h3>Modifica los campos necesarios</h3>
+    <h7 style=color:red >{{error_perfil}} {{error_user}}</h7>
 
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
-            {{form.as_table}}
+            {{form_user.as_table}}
+            {{form_profile.as_table}}
         </table>
+
         <input type="submit", value="Guardar">
     </form>
 
