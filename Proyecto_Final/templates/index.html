@@ -4,32 +4,39 @@
 {% block nav_inicio_activo %}active{% endblock %}
 
 {% block contenido %}
-<div class="container">
-    <div class="row align-items-end">&nbsp;</div>
-    <div class="row align-items-start">
-      <div class="col">
-          <div style="float:left; z-index: 9999999; margin-top: 40px; position: absolute; text-align: center; width: 95%; color: #fff; text-shadow: 5px 5px 8px #000; font-size: 60px; font-weight: bold;">
-            {% for i in object_list %}
-            {{ i.titulo }} <br/>
-            {{ i.subtitulo }} 
-            {% endfor%}
-          </div>
 
-        <a href="/productos/"><img src="{% static 'assets/images/Banner1.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
+  <div class="col-12">
+    <div class="card card-overlay-bottom card-grid-sm card-bg-scale" style=" width: 100%; height:350px; background-image:url({% static 'assets/images/Banner1.jpg' %}); background-position: center left; background-size: cover; ">
+      <!-- Card Image -->
+      <!-- Card Image overlay -->
+      <div class="card-img-overlay d-flex align-items-center p-3 p-sm-4"> 
+        <div class="w-100 mt-auto">
+          
+          <!-- Card title -->
+          <h1 class="text-white" style="text-shadow: 5px 5px 8px #000;">
+              {% for i in object_list %}
+                {{ i.titulo }} <br/>
+                {{ i.subtitulo }} 
+              {% endfor%}
+          </h1>
+          
+          <a class="w-20 mb-2 btn btn-lg rounded-3 btn-primary" href="/productos/">Conozca nuestros productos</a>
+          <!-- Card info -->
+          
+        </div>
       </div>
-      
-    </div>
-    <div class="row align-items-end">&nbsp;</div>
-    <div class="row align-items-center">
-      <div class="col">
-        <a href="/productos/"><img src="{% static 'assets/images/Banner2.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
-      </div>
-      <div class="col">
-        <a href="/productos/"><img src="{% static 'assets/images/Banner3.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
-      </div>
-     
-    </div>
-    <div class="row align-items-end">&nbsp;</div>
+    </div>    
+  </div>
+
+<div class="bd-brand-logos d-sm-flex text-center bg-light rounded-lg overflow-hidden w-100 mb-3">
+
+  <div class="bd-brand-item w-100 p-3">
+    <a href="/productos/"><img src="{% static 'assets/images/Banner2.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
+  </div>
+  <div class="bd-brand-item w-100 p-3">
+    <a href="/productos/"><img src="{% static 'assets/images/Banner3.jpg' %}" alt="Ferreteria 2010" width="100%"></a>
+  </div>
 </div>
+
 
 {% endblock %}
