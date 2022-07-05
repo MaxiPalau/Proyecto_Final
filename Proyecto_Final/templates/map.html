@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Mapa{% endblock %}
+{% block nav_map_activo %}active{% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <div class="row align-items-start" style="margin: 20px 0px 0px 0px;">
+      <div class="col">
+        <h2>Mapa del sitio</h2>        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h3>Productos</h3>
+        <div class="separador"></div>
+        {% for i in producto_map %}
+        <a href="/productos/detail-producto/{{i.id}}">{{ i.nombre }}</a><br>
+        {% endfor%}
+      </div>
+      <div class="col">
+        <h3>Marcas</h3>
+        <div class="separador"></div>
+        {% for f in marcas_map %}
+        <a href="/productos/search-product/?search={{f.nombre}}">{{ f.nombre }} </a><br>
+        {% endfor%}
+      </div>
+
+      <div class="col">
+        <h3>Tipos</h3>
+        <div class="separador"></div>
+        {% for f in tipo_map %}
+          {{ f.categoria }} <br>
+        {% endfor%}
+
+      </div>
+    </div>
+    
+     <div class="row">
+
+      <div class="col">
+        <h3>Usuarios</h3>
+        <div class="separador"></div>
+        {% for f in user_map %}
+          {{ f.username }}  <br>
+        {% endfor%}
+
+      </div>
+
+      <div class="col">
+        <h3>Usuario Perfiles</h3>
+        <div class="separador"></div>
+        {% for f in user_profile_map %}
+          {{ f.first_name }} {{ f.last_name }} <br>
+        {% endfor%}
+
+      </div>
+
+      <div class="col">
+        <h3>Grupo</h3>
+        <div class="separador"></div>
+        {% for f in group_map %}
+          {{ f.grupo }}  <br>
+        {% endfor%}
+
+      </div>
+     
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <h3>Distribuidores</h3>
+        <div class="separador"></div>
+        {% for f in distribuidores_map %}
+         {{ f.razon_social }} <br>
+        {% endfor%}
+
+      </div>
+
+    </div>
+    <div class="row align-items-end">&nbsp;</div>
+</div>
+
+{% endblock %}

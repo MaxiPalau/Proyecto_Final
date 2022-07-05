@@ -1,5 +1,6 @@
 from django.contrib import admin
 from site_extras.models import Inicio, About
+from productos.models import Productos
 
 class Display_titulo(admin.ModelAdmin):
     list_display = ('titulo','subtitulo')
