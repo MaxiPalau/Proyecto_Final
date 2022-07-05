@@ -4,29 +4,23 @@
 {% block nav_about_activo %}active{% endblock %}
 
 {% block contenido %}
-<div class="container">
-    <div class="row align-items-end">&nbsp;</div>
-    <div class="row align-items-start">
-      <div class="col">
-          about
+<div class="container px-4 py-5" id="featured-3">
+  <h2 class="pb-2 border-bottom">Acerca de Nosotros</h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
 
-          
-
-        
-      </div>
+    {% for i in object_list %}
+    <div class="feature col">
       
+      <h2>{{ i.nombre }}</h2>
+      <small>{{ i.puesto }}</small>
+      <p>{{ i.descripcion }}</p>
     </div>
-    <div class="row align-items-end">&nbsp;</div>
-    <div class="row align-items-center">
-      {% for i in object_list %}
-        <div class="col">
-          {{ i.nombre }} <br/>
-          {{ i.puesto }} <br/>
-          {{ i.descripcion }} 
-        </div>            
-      {% endfor%}
-    </div>
-    <div class="row align-items-end">&nbsp;</div>
+    {% endfor%}
+    
+    
+  </div>
 </div>
+
+
 
 {% endblock %}
