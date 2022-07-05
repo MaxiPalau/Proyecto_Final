@@ -7,7 +7,7 @@ from categorias.models import Tipo
 from accounts.models import User_profile
 from django.contrib.auth.models import User, Group
 from django.views.generic import ListView
-
+from django_base.functions import usuario_logueado
 
 
 class Leyendas_inicio(ListView):
@@ -19,6 +19,7 @@ class Detalle_about(ListView):
     template_name = 'about.html'
 
 def Detalle_site(request):
+    grupo = usuario_logueado(request)
     producto_map = Productos.objects.all()
     distribuidores_map = Distribuidores.objects.all()
     marcas_map = Marcas.objects.all()
@@ -26,6 +27,6 @@ def Detalle_site(request):
     user_profile_map = User_profile.objects.all()
     user_map = User.objects.all()
     group_map = Group.objects.all()
-    return render (request, "map.html", {"producto_map":producto_map, "distribuidores_map": distribuidores_map, "marcas_map": marcas_map, "tipo_map": tipo_map, "user_profile_map": user_profile_map, "user_map": user_map, "group_map": group_map })
+    return render (request, "map.html", {"producto_map":producto_map, "distribuidores_map": distribuidores_map, "marcas_map": marcas_map, "tipo_map": tipo_map, "user_profile_map": user_profile_map, "user_map": user_map, "group_map": group_map, 'grupo':grupo})
 
 
