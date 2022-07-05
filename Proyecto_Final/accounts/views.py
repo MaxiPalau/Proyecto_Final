@@ -22,11 +22,13 @@ def login_view(request):
             login(request, user)
             grupo = usuario_logueado(request)           
             context = {'message':f'Ha iniciado sesión como {username}', 'grupo':grupo}
-            return render(request, 'index.html', context=context)
+            #return render(request, 'index.html', context=context)
+            return redirect('index')
          else:
             form = AuthenticationForm()
             context = {'errors':'Nombre de usuario o contraseña incorrecto', 'form':form}
             return render(request, 'accounts/login.html', context=context)
+            
       else:
          f_error = form.errors
          for key in f_error:

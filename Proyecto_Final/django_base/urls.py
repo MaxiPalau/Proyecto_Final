@@ -15,23 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import index, about #, login_view, logout_view, register_view
+from .views import index, about
 from site_extras.views import Leyendas_inicio, Detalle_about, Detalle_site
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', index, name = 'index'),
-    path('', Leyendas_inicio.as_view(), name = 'index'), 
-    path('about/', Detalle_about.as_view(), name = 'about'),
-    #path('map/', Detalle_site.as_view(), name = 'map'),  
+    path('', Leyendas_inicio, name = 'index'), 
     path('map/', Detalle_site, name = 'map'),
+    path('about/', Detalle_about, name = 'about'),
     path('productos/', include('productos.urls')),
     path('categorias/', include('categorias.urls')),
     path('distribuidores/', include('distribuidores.urls')),
     path('dist-marca/', include('dist_marca.urls')),
     path('marcas/', include('marcas.urls')),
     path('accounts/', include('accounts.urls')),
-    #path('about/', about, name = 'about'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
