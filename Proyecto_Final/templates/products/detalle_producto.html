@@ -42,7 +42,7 @@
                 {% if object.stock == 0  %}
                 <h2><del>$ {{ object.precio }}</del></h2>
                 {% else %}            
-                <h1>$ {{ object.precio }}    <a href="/productos/compra-producto/{{producto.id}}" class="btn btn-primary">Comprar</a></h1>
+                <h1>$ {{ object.precio }}    <a href="/productos/compra-producto/{{object.id}}" class="btn btn-primary">Comprar</a></h1>
                 
                 {% endif %}
             </div>
