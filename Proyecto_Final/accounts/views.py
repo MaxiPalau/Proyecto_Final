@@ -1,10 +1,12 @@
+from re import I
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, Group
-from accounts.forms import Registro_usuario_form, Profile_form
+from django.contrib.auth.decorators import login_required
+from accounts.forms import Registro_usuario_form, User_edit_form, Profile_form, Update_profile_form
 from django_base.functions import usuario_logueado
 from accounts.models import User_profile
 
@@ -67,8 +69,8 @@ def register_view(request):
       context = {'form':form, 'boton':boton}
       return render(request, 'accounts/register.html', context=context)
 
+@login_required
 def profile_view(request):
-   if request.user.is_authenticated:
       try:
          grupo = usuario_logueado(request)
          username  = request.user.username
@@ -76,114 +78,45 @@ def profile_view(request):
          profile =  User_profile.objects.get(username_id = id_usuario[0])
          value = True 
          context = {'object':profile, 'grupo':grupo, 'value':value}
-         render(request, 'accounts/profile.html', context=context)
          return render(request, 'accounts/profile.html', context=context) 
       except ObjectDoesNotExist:
          error = 'El usuario no posee perfil'
          value = False
          context = {'errors':error, 'grupo':grupo, 'value':value}
          return render(request, 'accounts/profile.html', context=context) 
-   else:
-      return redirect('index')
 
+@login_required
 def create_profile(request):
    grupo = usuario_logueado(request)
-   if request.user.is_authenticated:
-      if request.method == 'GET':
-         # username  = request.user.username
-         # id_usuario = list(User.objects.filter(username__icontains = username).values_list('id', flat=True))
-         form = Profile_form()
-         context ={'form':form, 'grupo':grupo}
-      # username  = request.user.username
-      # id_usuario = list(User.objects.filter(username__icontains = username).values_list('id', flat=True))
-      # profile =  User_profile.objects.get(username_id = id_usuario[0]) 
-      # # perfil = User_profile.objects.get(id = pk)
-      # form = Profile_form(request.GET or None, instance= profile)
-      else:
-         form = Profile_form(request.POST, request.FILES)
+   if request.method == 'GET':
+      try:
          username  = request.user.username
          id_usuario = list(User.objects.filter(username__icontains = username).values_list('id', flat=True))
-         form.username = id_usuario
-         print(f'ID USUARIO: {id_usuario}')
-         #for item, v in form.fields:
-         #  print(item, v)
-         for item in form.fields:
-           print(item)
-         print(form.fields['username'])
-
-         print(form.fields['first_name'])
-         print(form.fields['last_name'])
-         print(form.fields['email'])
-         print(form.fields['phone'])
-         print(request.FILES['image'])
-
-         #print(form.cleaned_data['first_name'])
-         #print(form.cleaned_data['last_name'])
-         #print(form.cleaned_data['email'])
-         #print(form.cleaned_data['phone'])
-         #print(request.FILES['image'])
-         if form.is_valid():
-            print('FORMULARIO VALIDO')
-            new_profile = User_profile.objects.create(
-               username = form.cleaned_data['username'],
-               first_name = form.cleaned_data['first_name'],
-               last_name = form.cleaned_data['last_name'],
-               email = form.cleaned_data['email'],
-               phone = form.cleaned_data['phone'],
-               image = request.FILES['image'],
-            )
-            new_profile.save()
-            context = {'new_profile':new_profile, 'grupo':grupo}
-            return HttpResponseRedirect('/accounts/profile/')
-         else:
-            print('entro al else del eror')
-            f_error = form.errors        
-            if f_error.__len__() == 0:
-               context = {'form':form, 'grupo':grupo}
-            else:
-               for key in f_error:
-                  error = f_error[key]
-               context = {'errors':error, 'form':form, 'grupo':grupo}        
-      return render(request, 'accounts/create_profile.html', context=context)
+         profile =  User_profile.objects.get(username_id = id_usuario[0])
+         form = Profile_form(initial={
+               'descripcion':profile.descripcion,
+               'link':profile.link,
+               'image':profile.image
+               })
+         context ={'form':form, 'grupo':grupo}
+      except ObjectDoesNotExist:
+         form = Profile_form()
+         context ={'form':form, 'grupo':grupo}
    else:
-      return redirect('index')
-   # grupo = usuario_logueado(request)
-   # if request.user.is_authenticated:
-   #    if request.method == 'GET':
-   #       form = Profile_form()
-   #       context ={'form':form, 'grupo':grupo}
-   #       return render(request, 'accounts/create_profile.html', context=context)
-   #    else:
-   #       form = Profile_form(request.POST)
-   #       if form.is_valid():
-   #             new_profile = Profile_form.objects.create(
-   #                username = form.cleaned_data['username'],
-   #                first_name = form.cleaned_data['first_name'],
-   #                last_name = form.cleaned_data['last_name'],
-   #                email = form.cleaned_data['email'],
-   #                phone = form.cleaned_data['phone'],
-   #                image = request.FILES['image'],
-   #             )
-   #             context = {'new_profile':new_profile, 'grupo':grupo}
-   #       else:
-   #          f_error = form.errors
-   #          for key in f_error:
-   #             error = f_error[key]
-   #             context = {'errors':error, 'form':form, 'grupo':grupo}
-   #       return render(request, 'accounts/create_profile.html', context=context)
-   # else:
-   #    return redirect('index')
-
-def update_profile(request, pk):
-   grupo = usuario_logueado(request)
-   if request.user.is_authenticated:
-      perfil = User_profile.objects.get(id = pk)
-      form = Profile_form(request.POST or None, instance= perfil)
+      form = Profile_form(request.POST, request.FILES)
       if form.is_valid():
-         form.save()
-         context = {'form':form, 'grupo':grupo}
+         usuario = User.objects.get(username=request.user)
+         new_profile = User_profile.objects.create(
+            username = usuario,
+            descripcion = form.cleaned_data['descripcion'],
+            link = form.cleaned_data['link'],
+            image = request.FILES['image'],
+         )
+         new_profile.save()
+         context = {'new_profile':new_profile, 'grupo':grupo}
          return HttpResponseRedirect('/accounts/profile/')
       else:
+         print('entro al else del eror')
          f_error = form.errors        
          if f_error.__len__() == 0:
             context = {'form':form, 'grupo':grupo}
@@ -191,6 +124,53 @@ def update_profile(request, pk):
             for key in f_error:
                error = f_error[key]
             context = {'errors':error, 'form':form, 'grupo':grupo}        
-      return render(request, 'accounts/update_profile.html', context=context)
+   return render(request, 'accounts/create_profile.html', context=context)
+
+@login_required
+def update_profile(request, pk):
+   grupo = usuario_logueado(request)
+   user = request.user
+   perfil = User_profile.objects.get(id = pk)
+   if request.method == 'POST':
+      form_user = User_edit_form(request.POST)
+      form_profile = Update_profile_form(request.POST, request.FILES)
+      if form_user.is_valid() and form_profile.is_valid():
+         datos_user = form_user.cleaned_data
+         user.email = datos_user['email']
+         user.password1 = datos_user['password1']
+         user.password2 = datos_user['password2']
+         user.first_name = datos_user['first_name']
+         user.last_name = datos_user['last_name']
+         user.save()
+         datos_profile = form_profile.cleaned_data
+         perfil.descripcion = datos_profile['descripcion']
+         perfil.link = datos_profile['link']
+         perfil.image = request.FILES['image']
+         perfil.save()
+         return HttpResponseRedirect('/accounts/profile/')
+      else:
+         f_error_user = form_user.errors
+         f_error_perfil = form_profile.errors
+         for key in f_error_user:
+            error_user = f_error_user[key]
+         for key in f_error_perfil:
+            error_perfil = f_error_perfil[key]
+         context = {'error_user':error_user, 'error_perfil':error_perfil,'form_user':form_user, 'form_profile':form_profile, 'grupo':grupo}
+         return render(request, 'accounts/update_profile.html', context=context)
    else:
-      return redirect('index')
+      form_user = User_edit_form(
+         initial={
+         'email':user.email, 
+         'first_name':user.first_name,
+         'last_name':user.last_name
+         }
+         )
+      form_profile = Update_profile_form(
+         initial={
+            'descripcion':perfil.descripcion,
+            'link':perfil.link,
+            'image':perfil.image
+            }
+         )
+   context = {'form_user':form_user, 'grupo':grupo, 'user':user, 'form_profile':form_profile}
+   return render(request, 'accounts/update_profile.html', context=context)

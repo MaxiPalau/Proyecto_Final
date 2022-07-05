@@ -70,7 +70,7 @@
             
           
             {% if producto.stock > 0 and grupo == False %}
-                <a href="#" class="btn btn-primary">Comprar</a>
+                <a href="/productos/compra-producto/{{producto.id}}" class="btn btn-primary">Comprar</a>
             {% elif grupo == True %}            
                 <a href="/productos/update-producto/{{producto.id}}" class="btn btn-primary">Editar</a>
                 <a href="/productos/delete-producto/{{producto.id}}" class="btn btn-danger">Eliminar</a>

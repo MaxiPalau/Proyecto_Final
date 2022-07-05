@@ -7,35 +7,13 @@
 {% if form %}
     <h1>Datos del perfil</h1>
     <h7 style=color:red >{{errors}}</h7>
-test
-   <p>{{request.username}}</p>
-   <p>{{request.first_name}}</p>
-   <p>{{request.last_name}}</p>
-   <p>{{request.email}}</p>
-   <p>{{request.phone}}</p>
-   <p>{{request.image}}</p>
-
-
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
             {{form.as_table}}
         </table>
-        <input type="submit", value="Enviar!">
+        <a href="/" class="btn btn-primary">Inicio</a>
     </form>
-{% elif new_tipo %}
-<h3>Nueva Categoría Generada</h3>
-    <div class="card" style="width: 18rem;">
-        
-        <div class="card-body">
-            <h5 class="card-title">Categoría: {{new_tipo.categoria}}</h5>
-            <p class="card-text">Descripción: {{new_tipo.descripcion}}</p>
-        </div>
-    </div class="text-right">
-    <a href="/categorias/tipos" class="btn btn-outline-success">Volver</a> 
-    </div>
-    </div>
-
 
 {% endif %}
 
