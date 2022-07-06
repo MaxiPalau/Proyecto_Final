@@ -1,5 +1,8 @@
 # Proyecto Final
 
+## Profesor
+* Luca Cittá Giordano
+
 ## Tutor
 * Juan Valle
 
