@@ -71,5 +71,11 @@ Se ingresa el texto a buscar en  el campo
 Para que un usuario creado desde la página de registro o desde el administrador de Django pueda hacer CRUD de productos, marcas, categorías, distribuidores, luego de generado se debe editar el usuario desde el panel de administración de Django y  se le debe asignar el grupo "Ferreteria", caso contrario no tendrá acceso a las funcionalidades antes mencionadas.
 
 ## Notas finales
-- Usuario de prueba: admin  
+### Usuario de prueba
+- Usuario: admin  
 - Contraseña: admin
+
+### Archivo .gitignore
+Decidimos quitar del archivo .gitignore la carpeta media y la base de datos con la finalidad que se vea el sitio completamente funcional.  
+Hay una validación que se hace en función a un grupo creado dentro del panel de administración de Django que no funcionaría de no tener la basae de datos que utilizamos cargando datos.  
+Entendemos que en un ambiente productivo estos archivos no se deben  compartir en github.
