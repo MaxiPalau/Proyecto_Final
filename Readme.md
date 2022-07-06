@@ -8,6 +8,9 @@
 - Mauro De Carli Montenegro
 - Maximiliano Palau
 
+## Video
+Haga click [aquí](https://drive.google.com/file/d/1XvPVvoYHo4451S2TqjYxrWMId-PShUUN/view?usp=sharing)
+
 ## Aplicación
 ### Productos
 En el apartado de productos se listan todos los elementos que se encuentran en la base de datos con sus atributos.  
@@ -21,10 +24,12 @@ La carga de productos, marcas, distribuidores y las marcas que son trabajadas po
 La carga de las marcas se lleva a cabo completando los siguientes campos, salvo que se especifique lo contrario son todos obligatorios:
 - nombre: nombre de la marca, no se puede repetir
 - descripción: descripción de la marca, puede estar en blanco
+
 ### Tipos (categorías)
 La carga de los tipos de productos se lleva a cabo completando los siguientes campos, salvo que se especifique lo contrario son todos obligatorios:
 - categoría: especificar la categoría a la que pertenece el producto, por ejemplo herramientas manuales, no se puede repetir
 - descripción:  descripción de la marca, puede estar en blanco
+
 ### Productos
 La carga de productos se lleva a cabo completando los siguientes campos, salvo que se especifique lo contrario son todos obligatorios:
 - nombre: carácter
@@ -50,11 +55,18 @@ La carga de distribuidores se lleva a cabo completando los siguientes campos, sa
 - web: especificar la web
 - cuit: ingresar solo números (sin guiones), no se puede repetir
 - descripción: especificar una descripción, puede estar en blanco
+
 ### Distribuidores por marca
 La carga de distribuidores por marca se lleva a cabo completando los siguientes campos, salvo que se especifique lo contrario son todos obligatorios:
 - marca = seleccionar la marca de la lista
 - distribuidor = seleccionar el distribuidor de la lista
+
 ## Búsqueda
-La búsqueda de productos se realiza, por el momento, únicamente por el nombre.
+Se ingresa el texto a buscar en  el campo
+
+## Usuarios con permisos de administración
+Para que un usuario creado desde la página de registro o desde el administrador de Django pueda hacer CRUD de productos, marcas, categorías, distribuidores, luego de generado se debe editar el usuario desde el panel de administración de Django y  se le debe asignar el grupo "Ferreteria", caso contrario no tendrá acceso a las funcionalidades antes mencionadas.
+
 ## Notas finales
-La vista detalle del producto, así como la navegabilidad por categorías no se encuentran disponibles en esta versión.
+- Usuario de prueba: admin  
+- Contraseña: admin

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class User_profile(models.Model):
     username = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_profile')
     descripcion = models.CharField(max_length=200, default='-', blank=True)
-    link = models.CharField(max_length=100, default='-', blank=True)
+    link = models.URLField(max_length=100, default='-', blank=True)
     image = models.ImageField(upload_to = 'profile_images', default='default.jpg')
 
     class Meta:
